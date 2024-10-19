@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "985376433391",
+    "project_id": "fastdine-25c56",
+    "storage_bucket": "fastdine-25c56.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:985376433391:android:0d41e5cbe10ab000f4271a",
+        "android_client_info": {
+          "package_name": "com.fastdine.utt"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB_l_2W-2Pk1cjZf1bUWhKva5ZD5mI6wdg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

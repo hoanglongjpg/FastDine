@@ -1,0 +1,32 @@
+R_DEF: Internal format may change without notice
+local
+color black
+color white
+drawable ic_launcher_background
+drawable ic_launcher_foreground
+id login_button
+id login_email
+id login_password
+id login_redirect
+id logout_button
+id register_button
+id register_email
+id register_password
+id register_redirect
+id welcome_text
+layout activity_login
+layout activity_main
+layout activity_register
+mipmap ic_launcher
+mipmap ic_launcher_round
+string app_name
+string gcm_defaultSenderId
+string google_api_key
+string google_app_id
+string google_crash_reporting_api_key
+string google_storage_bucket
+string project_id
+style Base.Theme.FastDine
+style Theme.FastDine
+xml backup_rules
+xml data_extraction_rules
