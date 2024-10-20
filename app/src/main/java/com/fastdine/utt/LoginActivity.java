@@ -15,6 +15,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -73,13 +75,35 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            // Đăng nhập thành công, chuyển sang giao diện chính
+                            // Đăng nhập thành công, kiểm tra vai trò người dùng
                             Toast.makeText(LoginActivity.this, "Login successful", Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                            finish();
+
+                            // Lấy thông tin người dùng hiện tại
+                            FirebaseUser currentUser = mAuth.getCurrentUser();
+                            FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+                            // Kiểm tra xem người dùng có phải là chủ cửa hàng không
+                            db.collection("owner")
+                                    .whereEqualTo("email", email)
+                                    .get()
+                                    .addOnSuccessListener(queryDocumentSnapshots -> {
+                                        if (!queryDocumentSnapshots.isEmpty()) {
+                                            // Người dùng là chủ cửa hàng
+                                            startActivity(new Intent(LoginActivity.this, OwnerActivity.class));
+                                        } else {
+                                            // Người dùng là khách hàng
+                                            startActivity(new Intent(LoginActivity.this, CustomerActivity.class));
+                                        }
+                                        finish(); // Đóng LoginActivity
+                                    })
+                                    .addOnFailureListener(e -> {
+                                        Toast.makeText(LoginActivity.this, "Error retrieving user role.", Toast.LENGTH_SHORT).show();
+                                        finish(); // Đóng LoginActivity
+                                    });
                         } else {
                             // Hiển thị lỗi nếu đăng nhập thất bại
                             Toast.makeText(LoginActivity.this, "Login failed: " + task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                            finish(); // Đóng LoginActivity
                         }
                     }
                 });

@@ -15,6 +15,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.FastDine"
         tools:targetApi="31">
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_channel_id"
+            android:value="YOUR_NOTIFICATION_CHANNEL_ID"/>
 
         <!-- Khai báo MainActivity -->
         <activity
@@ -29,6 +36,8 @@
         <!-- Khai báo LoginActivity -->
         <activity android:name=".LoginActivity" />
         <activity android:name=".RegisterActivity" />
+        <activity android:name=".CustomerActivity" />
+        <activity android:name=".OwnerActivity" />
         <!-- Có thể khai báo thêm các activity khác nếu cần -->
     </application>
 
