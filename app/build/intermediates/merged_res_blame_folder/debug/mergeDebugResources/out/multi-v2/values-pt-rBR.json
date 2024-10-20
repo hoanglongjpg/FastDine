@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.fastdine.utt.app-mergeDebugResources-40:/values-pt-rBR/values-pt-rBR.xml",
+            "outputFile": "com.fastdine.utt.app-mergeDebugResources-41:/values-pt-rBR/values-pt-rBR.xml",
             "map": [
                 {
                     "source": "C:\\Users\\longh\\.gradle\\caches\\transforms-4\\a3d6c11b1f5541657ffa99dc779bda13\\transformed\\material-1.12.0\\res\\values-pt-rBR\\values-pt-rBR.xml",

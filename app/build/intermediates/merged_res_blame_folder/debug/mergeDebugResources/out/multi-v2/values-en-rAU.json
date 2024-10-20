@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.fastdine.utt.app-mergeDebugResources-40:/values-en-rAU/values-en-rAU.xml",
+            "outputFile": "com.fastdine.utt.app-mergeDebugResources-41:/values-en-rAU/values-en-rAU.xml",
             "map": [
                 {
                     "source": "C:\\Users\\longh\\.gradle\\caches\\transforms-4\\142a9c47437c2138986d708b7a300e0e\\transformed\\credentials-1.2.0-rc01\\res\\values-en-rAU\\values-en-rAU.xml",

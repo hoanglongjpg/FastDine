@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.fastdine.utt.app-mergeDebugResources-40:/values-watch-v20/values-watch-v20.xml",
+            "outputFile": "com.fastdine.utt.app-mergeDebugResources-41:/values-watch-v20/values-watch-v20.xml",
             "map": [
                 {
                     "source": "C:\\Users\\longh\\.gradle\\caches\\transforms-4\\af02f23a1aa8e88bb8de413783a8a8cd\\transformed\\play-services-auth-20.7.0\\res\\values-watch-v20\\values.xml",

@@ -3353,6 +3353,7 @@ id frost
 id fullscreen_header
 id ghost_view
 id ghost_view_holder
+id glide_custom_view_target_tag
 id gone
 id graph
 id graph_wrap
@@ -3611,6 +3612,7 @@ id textSpacerNoButtons
 id textSpacerNoTitle
 id textStart
 id textTop
+id textView
 id text_input_end_icon
 id text_input_error_icon
 id text_input_start_icon
@@ -3779,8 +3781,10 @@ layout abc_search_dropdown_item_icons_2line
 layout abc_search_view
 layout abc_select_dialog_material
 layout abc_tooltip
+layout activity_customer
 layout activity_login
 layout activity_main
+layout activity_owner
 layout activity_register
 layout browser_actions_context_menu_page
 layout browser_actions_context_menu_row

@@ -13,9 +13,12 @@ id register_button
 id register_email
 id register_password
 id register_redirect
+id textView
 id welcome_text
+layout activity_customer
 layout activity_login
 layout activity_main
+layout activity_owner
 layout activity_register
 mipmap ic_launcher
 mipmap ic_launcher_round

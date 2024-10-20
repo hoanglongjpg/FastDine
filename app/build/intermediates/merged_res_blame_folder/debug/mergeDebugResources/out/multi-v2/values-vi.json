@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.fastdine.utt.app-mergeDebugResources-40:/values-vi/values-vi.xml",
+            "outputFile": "com.fastdine.utt.app-mergeDebugResources-41:/values-vi/values-vi.xml",
             "map": [
                 {
                     "source": "C:\\Users\\longh\\.gradle\\caches\\transforms-4\\76a7c1bb4b66b406d66f757994b2da1e\\transformed\\browser-1.4.0\\res\\values-vi\\values-vi.xml",

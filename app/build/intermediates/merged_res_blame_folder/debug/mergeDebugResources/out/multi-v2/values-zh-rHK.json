@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.fastdine.utt.app-mergeDebugResources-40:/values-zh-rHK/values-zh-rHK.xml",
+            "outputFile": "com.fastdine.utt.app-mergeDebugResources-41:/values-zh-rHK/values-zh-rHK.xml",
             "map": [
                 {
                     "source": "C:\\Users\\longh\\.gradle\\caches\\transforms-4\\6b6e5688b1aae9524d6c2def7913b178\\transformed\\core-1.13.0\\res\\values-zh-rHK\\values-zh-rHK.xml",

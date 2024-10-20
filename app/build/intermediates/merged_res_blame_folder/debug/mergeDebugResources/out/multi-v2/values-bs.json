@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.fastdine.utt.app-mergeDebugResources-40:/values-bs/values-bs.xml",
+            "outputFile": "com.fastdine.utt.app-mergeDebugResources-41:/values-bs/values-bs.xml",
             "map": [
                 {
                     "source": "C:\\Users\\longh\\.gradle\\caches\\transforms-4\\a9fa6dba953870dfd0fd7ac0a031004d\\transformed\\play-services-base-18.5.0\\res\\values-bs\\values.xml",

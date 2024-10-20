@@ -44,5 +44,10 @@ dependencies {
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.analytics)
     implementation(libs.firebase.auth)
-    implementation("com.google.firebase:firebase-firestore:25.1.0")
+    implementation ("com.google.firebase:firebase-firestore:25.1.0")
+    implementation ("com.google.code.gson:gson:2.9.1")
+    implementation ("com.google.firebase:firebase-auth:22.3.0")
+    implementation ("com.google.firebase:firebase-database:21.0.0")
+    implementation ("com.github.bumptech.glide:glide:4.14.2")
+    //implementation ("com.google.gms.google-services:4.4.2")
 }
