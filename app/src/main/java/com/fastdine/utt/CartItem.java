@@ -1,5 +1,7 @@
 package com.fastdine.utt;
 
+import com.google.common.math.Quantiles;
+
 public class CartItem {
     private String name;
     private int quantity;
@@ -18,9 +20,11 @@ public class CartItem {
     }
 
     public String getName() {
+        return name;
     }
 
     public int getQuantity() {
+        return quantity;
     }
 
     public int getImageResId() {
