@@ -38,6 +38,7 @@
         <activity android:name=".RegisterActivity" />
         <activity android:name=".CustomerActivity" />
         <activity android:name=".OwnerActivity" />
+        <activity android:name=".CartActivity" />
         <!-- Có thể khai báo thêm các activity khác nếu cần -->
     </application>
 
