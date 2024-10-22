@@ -24,6 +24,7 @@
             android:src="@drawable/ic_search" />
 
         <ImageButton
+            android:id="@+id/cartButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_cart"
@@ -46,4 +47,5 @@
         android:layout_height="wrap_content"
         android:background="?android:attr/windowBackground"
         app:menu="@menu/customer_bottom_nav_menu" />
+
 </LinearLayout>
