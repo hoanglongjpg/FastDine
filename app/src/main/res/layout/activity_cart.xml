@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -11,8 +12,21 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:padding="16dp"
-        android:gravity="center_vertical">
+        android:gravity="center_vertical"
+        android:background="#FAFAFA">
 
+        <!-- Icon thùng rác (Delete) nằm bên trái -->
+        <ImageButton
+            android:id="@+id/clearCartButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_delete"
+            android:background="?android:attr/selectableItemBackground"
+            android:contentDescription="Clear Cart"
+            android:layout_marginEnd="8dp"
+            app:tint="#FF5722" />
+
+        <!-- Tiêu đề "Giỏ hàng" nằm giữa -->
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -20,8 +34,10 @@
             android:text="Giỏ hàng"
             android:textSize="18sp"
             android:textStyle="bold"
-            android:gravity="center" />
+            android:gravity="center"
+            android:background="#FAFAFA" />
 
+        <!-- Icon đóng giỏ hàng nằm bên phải -->
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -30,6 +46,7 @@
             android:contentDescription="Close Cart"
             android:onClick="closeCart" />
     </LinearLayout>
+
 
     <!-- Danh sách sản phẩm trong giỏ -->
     <androidx.recyclerview.widget.RecyclerView
