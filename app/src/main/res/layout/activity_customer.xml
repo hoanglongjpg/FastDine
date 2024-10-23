@@ -34,7 +34,7 @@
 
     <!-- RecyclerView hiển thị danh sách món ăn -->
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
+        android:id="@+id/recyclerView_food_list"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
