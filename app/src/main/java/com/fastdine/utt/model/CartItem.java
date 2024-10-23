@@ -1,6 +1,4 @@
-package com.fastdine.utt;
-
-import com.google.common.math.Quantiles;
+package com.fastdine.utt.model;
 
 public class CartItem {
     private String name;

@@ -25,7 +25,7 @@
 
         <!-- Khai báo MainActivity -->
         <activity
-            android:name=".MainActivity"
+            android:name=".view.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -34,11 +34,11 @@
         </activity>
 
         <!-- Khai báo LoginActivity -->
-        <activity android:name=".LoginActivity" />
-        <activity android:name=".RegisterActivity" />
-        <activity android:name=".CustomerActivity" />
-        <activity android:name=".OwnerActivity" />
-        <activity android:name=".CartActivity" />
+        <activity android:name=".view.LoginActivity" />
+        <activity android:name=".view.RegisterActivity" />
+        <activity android:name=".view.CustomerActivity" />
+        <activity android:name=".view.OwnerActivity" />
+        <activity android:name=".view.CartActivity" />
         <!-- Có thể khai báo thêm các activity khác nếu cần -->
     </application>
 

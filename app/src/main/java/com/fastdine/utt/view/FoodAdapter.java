@@ -1,4 +1,4 @@
-package com.fastdine.utt;
+package com.fastdine.utt.view;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +8,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
+import com.fastdine.utt.R;
+import com.fastdine.utt.model.Food;
+
 import java.util.List;
 
 public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.FoodViewHolder> {

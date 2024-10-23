@@ -1,4 +1,4 @@
-package com.fastdine.utt;
+package com.fastdine.utt.model;
 
 public class Food {
     private String name;

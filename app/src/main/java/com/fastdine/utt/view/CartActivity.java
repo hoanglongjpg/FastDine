@@ -1,4 +1,4 @@
-package com.fastdine.utt;
+package com.fastdine.utt.view;
 
 import android.os.Bundle;
 import android.view.View;
@@ -6,6 +6,10 @@ import android.view.View;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.fastdine.utt.R;
+import com.fastdine.utt.model.CartItem;
+
 import java.util.ArrayList;
 import java.util.List;
 
