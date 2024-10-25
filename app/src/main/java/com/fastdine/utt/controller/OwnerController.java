@@ -1,27 +1,21 @@
 package com.fastdine.utt.controller;
-
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.app.Dialog;
 import android.content.Context;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
 import com.fastdine.utt.R;
-import com.google.firebase.firestore.FirebaseFirestore;
-import java.util.HashMap;
-import java.util.Map;
+import com.fastdine.utt.model.Food;
+import com.fastdine.utt.view.FoodAdapter;
+import java.util.List;
 
 public class OwnerController {
-    private static Context context;
-    private static AddFoodListener addFoodListener;
-
-    public OwnerController(Context context, AddFoodListener listener) {
-        this.context = context;
-        this.addFoodListener = listener;
-    }
+    private Context context;
 
     public OwnerController(Context context) {
-        this.context = context;
+        this.context = context.getApplicationContext();
     }
 
     // Interface để callback về Activity
@@ -29,8 +23,35 @@ public class OwnerController {
         void onFoodAdded();
     }
 
+    // Hàm để hiển thị danh sách món ăn
+    public void viewFoodList(RecyclerView recyclerView) {
+        // Gọi hàm getFoodList từ Food.java
+        Food.getFoodList(new Food.OnFoodListListener() {
+            @Override
+            public void onComplete(List<Food> foodList) {
+                // Tạo adapter với dữ liệu món ăn
+                FoodAdapter foodAdapter = new FoodAdapter(foodList);
+
+                // Cài đặt LayoutManager cho RecyclerView
+                recyclerView.setLayoutManager(new LinearLayoutManager(context));
+
+                // Cài đặt adapter cho RecyclerView
+                recyclerView.setAdapter(foodAdapter);
+
+                // Thông báo thành công (tuỳ chọn)
+                Toast.makeText(context, "Danh sách món ăn đã được cập nhật", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onError(Exception e) {
+                // Xử lý khi có lỗi xảy ra
+                Toast.makeText(context, "Lỗi khi lấy danh sách món ăn: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
     // Hàm để hiển thị Dialog thêm món ăn
-    public static void showAddFoodDialog() {
+    public void addFood(RecyclerView recyclerView, Context context) {
         Dialog dialog = new Dialog(context);
         dialog.setContentView(R.layout.dialog_add_food);
 
@@ -60,32 +81,38 @@ public class OwnerController {
             double price = Double.parseDouble(priceStr);
 
             // Tạo đối tượng món ăn mới
-            Map<String, Object> food = new HashMap<>();
-            food.put("name", name);
-            food.put("description", description);
-            food.put("price", price);
-            food.put("image", imageUrl);
+            Food food = new Food(name, description, imageUrl, price);
 
-            // Thêm món ăn vào Firestore
-            FirebaseFirestore db = FirebaseFirestore.getInstance();
-            db.collection("foods")
-                    .add(food)
-                    .addOnSuccessListener(documentReference -> {
-                        Toast.makeText(context, "Thêm món ăn thành công", Toast.LENGTH_SHORT).show();
-                        dialog.dismiss();  // Đóng Dialog sau khi thêm thành công
+            // Gọi hàm addFood từ Food.java
+            Food.addFood(food, new Food.OnFoodListListener() {
+                @Override
+                public void onComplete(List<Food> foodList) {
 
-                        if (addFoodListener != null) {
-                            addFoodListener.onFoodAdded();
-                        }
+                    // Thông báo thành công (tuỳ chọn)
+                    Toast.makeText(context, "Thêm món ăn thành công", Toast.LENGTH_SHORT).show();
+                }
 
-                    })
-
-                    .addOnFailureListener(e -> Toast.makeText(context, "Lỗi khi thêm món ăn", Toast.LENGTH_SHORT).show());
-
-
+                @Override
+                public void onError(Exception e) {
+                    // Xử lý khi có lỗi xảy ra
+                    Toast.makeText(context, "Thêm món ăn thất bại: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
+            dialog.dismiss();
+            viewFoodList(recyclerView);
         });
-
         // Hiển thị Dialog
         dialog.show();
     }
+
+    //Sửa món ăn
+    public void updateFood(){
+
+    }
+
+    //Xoá món ăn
+    public void deleteFood(){
+
+    }
+
 }

@@ -12,8 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="16dp"
-        android:background="#FFFFFF">
+        android:padding="16dp">
 
         <ImageButton
             android:layout_width="345dp"
@@ -25,8 +24,13 @@
 
         <ImageButton
             android:id="@+id/cartButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:elevation="0dp"
+            android:translationZ="0dp"
+            android:layout_marginTop="1dp"
+            android:layout_marginBottom="1dp"
+            android:layout_marginEnd="1dp"
             android:src="@drawable/ic_cart"
             android:background="?android:attr/selectableItemBackground"
             android:contentDescription="Cart" />

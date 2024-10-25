@@ -12,7 +12,7 @@
         android:textStyle="bold"
         android:textSize="30sp"
         android:layout_gravity="center"
-        android:padding="24dp"/>
+        android:padding="10dp"/>
 
     <EditText
         android:id="@+id/editText_food_name"
@@ -30,7 +30,8 @@
         android:id="@+id/editText_food_price"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Giá" />
+        android:hint="Giá"
+        android:inputType="numberDecimal"/>
 
     <EditText
         android:id="@+id/editText_food_image"
@@ -50,6 +51,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:layout_marginRight="20dp"
             android:text="Hủy" />
 
         <Button

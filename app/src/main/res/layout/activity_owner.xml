@@ -7,35 +7,47 @@
     android:orientation="vertical"
     tools:context=".view.OwnerActivity">
 
-    <!-- TextView chào mừng -->
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
+    <!-- LinearLayout lồng ngang chứa TextView và FloatingActionButton -->
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Chào mừng chủ cửa hàng!"
-        android:textSize="18sp"
-        android:layout_gravity="center_horizontal"
-        android:paddingBottom="8dp" />
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <!-- TextView chào mừng -->
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Chào mừng chủ cửa hàng!"
+            android:textSize="18sp"
+            android:paddingStart="16dp"
+            android:paddingBottom="8dp" />
+
+        <!-- Nút thêm món ăn -->
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/add_food"
+            android:elevation="0dp"
+            android:translationZ="0dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:layout_marginBottom="6dp"
+            android:layout_marginEnd="6dp"
+            android:contentDescription="Add Food"
+            app:srcCompat="@drawable/ic_add" />
+    </LinearLayout>
 
     <!-- RecyclerView để hiển thị danh sách món ăn -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView_food_list"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="582dp"
         android:layout_weight="1"
         android:divider="?android:attr/listDivider"
         android:dividerHeight="1dp"
-        android:padding="8dp"/>
-
-    <!-- Nút thêm món ăn -->
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/add_food"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end"
-        android:layout_margin="16dp"
-        android:contentDescription="Add Food"
-        app:srcCompat="@drawable/ic_add" />
+        android:padding="8dp" />
 
     <!-- BottomNavigationView dính vào cạnh dưới -->
     <com.google.android.material.bottomnavigation.BottomNavigationView
