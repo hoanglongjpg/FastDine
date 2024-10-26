@@ -12,14 +12,15 @@
     import androidx.recyclerview.widget.RecyclerView;
     import com.bumptech.glide.Glide;
     import com.fastdine.utt.R;
+    import com.fastdine.utt.controller.OwnerController;
     import com.fastdine.utt.controller.CustomerController;
     import com.fastdine.utt.model.Cart;
     import com.fastdine.utt.model.Food;
-
     import java.util.List;
 
     public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.FoodViewHolder> {
         private List<Food> foodList;
+        private OwnerController controller;
         private CustomerController controller;
 
         public FoodAdapter(List<Food> foodList, CustomerController controller) {
@@ -28,6 +29,11 @@
         }
         public FoodAdapter(List<Food> foodList) {
             this.foodList = foodList;
+        }
+
+        public FoodAdapter(List<Food> foodList, OwnerController controller) {
+            this.foodList = foodList;
+            this.controller = controller;
         }
 
         @NonNull
@@ -56,6 +62,13 @@
                     .load(foodItem.getImage())
                     .into(holder.foodImageView);
 
+
+            // Thiết lập nút xóa
+            holder.buttonDelete.setOnClickListener(v -> {
+                // Gọi phương thức deleteFood trong OwnerController
+                controller.deleteFood(foodItem.getId(), ((RecyclerView) holder.itemView.getParent()));
+            });
+
             // Thiết lập sự kiện click cho nút "+"
             holder.addButton.setOnClickListener(v -> {
                 // Tạo CartItem từ Food để thêm vào giỏ hàng
@@ -63,7 +76,6 @@
                         foodItem.getImage(), foodItem.getPrice(), 1);
                 controller.addItemToCart(newItem); // Thêm vào giỏ hàng thông qua controller
             });
-
 
         }
 
@@ -73,8 +85,9 @@
         }
 
         public static class FoodViewHolder extends RecyclerView.ViewHolder {
-            Button editButton, deleteButton;
-            ImageButton addButton;
+
+            public View buttonDelete;
+            ImageButton editButton, deleteButton, addButton;
             TextView nameTextView, descriptionTextView, priceTextView;
             ImageView foodImageView;
 
@@ -86,6 +99,7 @@
                 descriptionTextView = itemView.findViewById(R.id.descriptionTextView);
                 priceTextView = itemView.findViewById(R.id.priceTextView);
                 foodImageView = itemView.findViewById(R.id.foodImageView);
+                buttonDelete = itemView.findViewById(R.id.deleteButton);
             }
         }
     }

@@ -1,4 +1,5 @@
 package com.fastdine.utt.controller;
+import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.app.Dialog;
@@ -9,12 +10,18 @@ import android.widget.Toast;
 import com.fastdine.utt.R;
 import com.fastdine.utt.model.Food;
 import com.fastdine.utt.view.FoodAdapter;
+
+import java.security.acl.Owner;
 import java.util.List;
 
 public class OwnerController {
     private Context context;
 
     public OwnerController(Context context) {
+        this.context = context;
+    }
+
+    public OwnerController() {
         this.context = context.getApplicationContext();
     }
 
@@ -30,7 +37,7 @@ public class OwnerController {
             @Override
             public void onComplete(List<Food> foodList) {
                 // Tạo adapter với dữ liệu món ăn
-                FoodAdapter foodAdapter = new FoodAdapter(foodList);
+                FoodAdapter foodAdapter = new FoodAdapter(foodList, OwnerController.this );
 
                 // Cài đặt LayoutManager cho RecyclerView
                 recyclerView.setLayoutManager(new LinearLayoutManager(context));
@@ -111,8 +118,32 @@ public class OwnerController {
     }
 
     //Xoá món ăn
-    public void deleteFood(){
+    public void deleteFood(String foodId, RecyclerView recyclerView) {
+        // Tạo dialog xác nhận xóa
 
+        new AlertDialog.Builder(context)
+                .setTitle("Xác nhận xóa")
+                .setMessage("Bạn có chắc chắn muốn xóa món ăn này?")
+                .setPositiveButton("Có", (dialog, which) -> {
+                    // Gọi hàm deleteFood từ Food.java
+                    Food.deleteFood(foodId, new Food.OnFoodListListener() {
+                        @Override
+                        public void onComplete(List<Food> foodList) {
+                            // Thông báo thành công
+                            Toast.makeText(context, "Xóa món ăn thành công", Toast.LENGTH_SHORT).show();
+                            // Cập nhật lại danh sách món ăn
+                            viewFoodList(recyclerView);
+                        }
+
+                        @Override
+                        public void onError(Exception e) {
+                            // Xử lý lỗi
+                            Toast.makeText(context, "Xóa món ăn thất bại: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                })
+                .setNegativeButton("Không", null) // Nút hủy
+                .show();
     }
 
 }
