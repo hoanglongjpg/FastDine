@@ -17,6 +17,9 @@ public class CustomerController {
         this.context = context;
     }
 
+    public CustomerController(){
+        this.context = context.getApplicationContext();
+    }
     // Hàm để hiển thị danh sách món ăn
     public void viewAvailableFood(RecyclerView recyclerView) {
         // Gọi hàm getFoodList từ Food.java
@@ -24,7 +27,7 @@ public class CustomerController {
             @Override
             public void onComplete(List<Food> foodList) {
                 // Tạo adapter với dữ liệu món ăn
-                FoodAdapter foodAdapter = new FoodAdapter(foodList);
+                FoodAdapter foodAdapter = new FoodAdapter(foodList,CustomerController.this);
 
                 // Cài đặt LayoutManager cho RecyclerView
                 recyclerView.setLayoutManager(new LinearLayoutManager(context));
@@ -39,6 +42,23 @@ public class CustomerController {
             public void onError(Exception e) {
                 // Xử lý khi có lỗi xảy ra
                 Toast.makeText(context, "Lỗi khi lấy danh sách món ăn: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    public void getCart(){
+        // Gọi hàm getFoodList từ Food.java
+        Cart.getCartItems(new Cart.OnCartListListener() {
+            @Override
+            public void onComplete(List<Cart.CartItems> items) {
+                // Thông báo thành công (tuỳ chọn)
+                Toast.makeText(context, "Giỏ hàng đã được cập nhật", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onError(Exception e) {
+                // Xử lý khi có lỗi xảy ra
+                Toast.makeText(context, "Lỗi khi tải giỏ hàng " + e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -73,4 +93,26 @@ public class CustomerController {
         });
     }
 
+    // Hàm gọi addItemToCart trong controller
+    public void addItemToCart(Cart.CartItems newItem) {
+        // Thêm món ăn vào giỏ hàng và cập nhật Firestore
+        Cart.addItemToCart(newItem);
+
+
+        // Gọi lại hàm getCartItems để cập nhật lại RecyclerView và tổng giá
+        Cart.getCartItems(new Cart.OnCartListListener() {
+            @Override
+            public void onComplete(List<Cart.CartItems> items) {
+                Toast.makeText(context, "Món ăn đã được thêm vào giỏ hàng", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onError(Exception e) {
+                // Xử lý khi có lỗi xảy ra
+                Toast.makeText(context, "Lỗi khi thêm món ăn vào giỏ hàng " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
 }
+
