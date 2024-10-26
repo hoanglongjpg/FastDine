@@ -1,8 +1,5 @@
 package com.fastdine.utt.model;
 
-import android.content.Context;
-import android.widget.Toast;
-import com.fastdine.utt.controller.OwnerController;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import java.util.ArrayList;
@@ -124,7 +121,7 @@ public class Food {
     }
 
     //Sửa món ăn
-    public static void updateFood(Food food, OnFoodListListener listener) {
+    public void updateFood(Food food, OnFoodListListener listener) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         // Giả sử bạn đã có ID của món ăn, bạn cần phải có thêm trường ID trong Food
         String foodId = food.getId(); // Cần có phương thức getId() trong Food
@@ -142,7 +139,19 @@ public class Food {
     }
 
     // Xoá món ăn
-    public static void deleteFood(String foodId) {
-
+    public static void deleteFood(String foodId, OnFoodListListener listener) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("foods").document(foodId)
+                .delete()
+                .addOnSuccessListener(aVoid -> {
+                    if (listener != null) {
+                        listener.onComplete(null);
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    if (listener != null) {
+                        listener.onError(e);
+                    }
+                });
     }
 }

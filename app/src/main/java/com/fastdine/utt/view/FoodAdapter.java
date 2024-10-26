@@ -4,21 +4,29 @@
     import android.view.View;
     import android.view.ViewGroup;
     import android.widget.Button;
+    import android.widget.ImageButton;
     import android.widget.ImageView;
     import android.widget.TextView;
     import androidx.annotation.NonNull;
     import androidx.recyclerview.widget.RecyclerView;
     import com.bumptech.glide.Glide;
     import com.fastdine.utt.R;
+    import com.fastdine.utt.controller.OwnerController;
     import com.fastdine.utt.model.Food;
 
     import java.util.List;
 
     public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.FoodViewHolder> {
         private List<Food> foodList;
+        private OwnerController controller;
 
         public FoodAdapter(List<Food> foodList) {
             this.foodList = foodList;
+        }
+
+        public FoodAdapter(List<Food> foodList, OwnerController controller) {
+            this.foodList = foodList;
+            this.controller = controller;
         }
 
         @NonNull
@@ -46,6 +54,12 @@
             Glide.with(holder.itemView.getContext())
                     .load(foodItem.getImage())
                     .into(holder.foodImageView);
+
+            // Thiết lập nút xóa
+            holder.buttonDelete.setOnClickListener(v -> {
+                // Gọi phương thức deleteFood trong OwnerController
+                controller.deleteFood(foodItem.getId(), ((RecyclerView) holder.itemView.getParent()));
+            });
         }
 
         @Override
@@ -54,7 +68,8 @@
         }
 
         public static class FoodViewHolder extends RecyclerView.ViewHolder {
-            Button editButton, deleteButton;
+            public View buttonDelete;
+            ImageButton editButton, deleteButton;
             TextView nameTextView, descriptionTextView, priceTextView;
             ImageView foodImageView;
 
@@ -64,6 +79,7 @@
                 descriptionTextView = itemView.findViewById(R.id.descriptionTextView);
                 priceTextView = itemView.findViewById(R.id.priceTextView);
                 foodImageView = itemView.findViewById(R.id.foodImageView);
+                buttonDelete = itemView.findViewById(R.id.deleteButton);
             }
         }
     }
