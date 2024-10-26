@@ -73,4 +73,18 @@ public class CustomerController {
         });
     }
 
+    public void clearCart() {
+        Cart.clearCart(new Cart.OnCartClearListener() {
+            @Override
+            public void onSuccess() {
+                Toast.makeText(context, "Đã xóa tất cả các món trong giỏ hàng", Toast.LENGTH_SHORT).show();
+                viewCart(((CartActivity) context).cartRecyclerView);  // Refresh cart view
+            }
+
+            @Override
+            public void onError(Exception e) {
+                Toast.makeText(context, "Lỗi khi xóa giỏ hàng: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
 }

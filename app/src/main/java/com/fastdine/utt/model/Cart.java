@@ -119,5 +119,20 @@ public class Cart {
         });
     }
 
+    public static void clearCart(OnCartClearListener listener) {
+        String userEmail = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        DocumentReference cartRef = db.collection("cart").document(userEmail);
+
+        cartRef.update("items", new HashMap<>())  // Clear all items by setting to an empty map
+                .addOnSuccessListener(aVoid -> listener.onSuccess())
+                .addOnFailureListener(listener::onError);
+    }
+
+    public interface OnCartClearListener {
+        void onSuccess();
+        void onError(Exception e);
+    }
+
 }
 
