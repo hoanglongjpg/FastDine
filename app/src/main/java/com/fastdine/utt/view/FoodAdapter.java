@@ -64,6 +64,7 @@
                 controller.addItemToCart(newItem); // Thêm vào giỏ hàng thông qua controller
             });
 
+
         }
 
         @Override

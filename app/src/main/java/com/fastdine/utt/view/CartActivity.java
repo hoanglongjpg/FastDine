@@ -42,6 +42,7 @@ public class CartActivity extends AppCompatActivity {
 
     public void closeCart(View view) {
         finish();
+        ctrl.updateCart();
     }
 
     private void showDeleteConfirmationDialog() {

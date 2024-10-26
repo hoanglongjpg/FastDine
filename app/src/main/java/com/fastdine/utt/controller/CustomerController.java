@@ -69,7 +69,7 @@ public class CustomerController {
             @Override
             public void onComplete(List<Cart.CartItems> items) {
                 // Tạo adapter với dữ liệu món ăn
-                CartAdapter cartAdapter = new CartAdapter(items);
+                CartAdapter cartAdapter = new CartAdapter(context,items);
 
                 // Cài đặt LayoutManager cho RecyclerView
                 recyclerView.setLayoutManager(new LinearLayoutManager(context));
@@ -104,6 +104,23 @@ public class CustomerController {
             @Override
             public void onError(Exception e) {
                 Toast.makeText(context, "Lỗi khi xóa giỏ hàng: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    public void updateCart() {
+        Cart.updateCart(new Cart.OnCartListListener() {
+            @Override
+            public void onComplete(List<Cart.CartItems> items) {
+
+                // Thông báo thành công (tuỳ chọn)
+                Toast.makeText(context, "Giỏ hàng đã được cập nhật", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onError(Exception e) {
+                // Xử lý khi có lỗi xảy ra
+                Toast.makeText(context, "Lỗi khi cập nhật giỏ hàng " + e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }

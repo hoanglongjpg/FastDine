@@ -179,6 +179,38 @@ public class Cart {
                 .addOnFailureListener(listener::onError);
     }
 
+    public static void updateCart(OnCartListListener listener ) {
+        String userEmail = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        DocumentReference cartRef = db.collection("cart").document(userEmail);
+
+        // Chuyển đổi danh sách items thành Map để lưu vào Firestore
+        Map<String, List<Object>> itemsMap = new HashMap<>();
+        for (CartItems item : items) {
+            List<Object> itemData = new ArrayList<>();
+            itemData.add(item.getId());
+            itemData.add(item.getName());
+            itemData.add(item.getDescription());
+            itemData.add(item.getImage());
+            itemData.add(item.getPrice());
+            itemData.add(item.getQuantity());
+            itemsMap.put(item.getId(), itemData);
+        }
+
+        // Lưu dữ liệu giỏ hàng lên Firestore
+        Map<String, Object> cartData = new HashMap<>();
+        cartData.put("cart_id", userEmail);
+        cartData.put("items", itemsMap);
+
+        cartRef.set(cartData)
+                .addOnSuccessListener(aVoid -> {
+                    listener.onComplete(items);
+                })
+                .addOnFailureListener(e -> {
+                    listener.onError(e);
+                });
+    }
+
     public interface OnCartClearListener {
         void onSuccess();
         void onError(Exception e);
