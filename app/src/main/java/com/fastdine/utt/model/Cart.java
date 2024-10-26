@@ -10,7 +10,7 @@ import java.util.Map;
 
 public class Cart {
     private String cart_id;
-    private List<Cart.CartItems> items;
+    public static List<Cart.CartItems> items;
 
     public static class CartItems extends Food{
         private int quantity;
@@ -75,7 +75,7 @@ public class Cart {
             if (task.isSuccessful() && task.getResult() != null) {
                 // Kiểm tra xem tài liệu đã tồn tại hay chưa
                 if (task.getResult().exists()) {
-                    List<CartItems> items = new ArrayList<>();
+                    items = new ArrayList<>();
                     // Lấy Map items từ tài liệu
                     Map<String, List<Object>> itemsData = (Map<String, List<Object>>) task.getResult().get("items");
 
@@ -119,5 +119,101 @@ public class Cart {
         });
     }
 
+    public static void addItemToCart(CartItems newItem) {
+        boolean itemExists = false;
+
+        // Kiểm tra xem món ăn đã tồn tại trong giỏ hàng hay chưa
+        for (CartItems item : items) {
+            if (item.getId().equals(newItem.getId())) { // So sánh ID để xác định món ăn trùng nhau
+                item.setQuantity(item.getQuantity() + newItem.getQuantity()); // Tăng số lượng của món ăn
+                itemExists = true;
+                break;
+            }
+        }
+
+        // Nếu món ăn chưa có trong giỏ hàng, thêm mới
+        if (!itemExists) {
+            items.add(newItem);
+        }
+
+        // Cập nhật danh sách items lên Firestore
+        String userEmail = FirebaseAuth.getInstance().getCurrentUser().getEmail(); // Lấy email người dùng hiện tại
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        DocumentReference cartRef = db.collection("cart").document(userEmail);
+
+        // Chuyển đổi danh sách items thành Map để lưu vào Firestore
+        Map<String, List<Object>> itemsMap = new HashMap<>();
+        for (CartItems item : items) {
+            List<Object> itemData = new ArrayList<>();
+            itemData.add(item.getId());
+            itemData.add(item.getName());
+            itemData.add(item.getDescription());
+            itemData.add(item.getImage());
+            itemData.add(item.getPrice());
+            itemData.add(item.getQuantity());
+            itemsMap.put(item.getId(), itemData);
+        }
+
+        // Tạo dữ liệu Cart để lưu vào Firestore
+        Map<String, Object> cartData = new HashMap<>();
+        cartData.put("cart_id", userEmail);
+        cartData.put("items", itemsMap);
+
+        // Thực hiện lưu dữ liệu Cart đã cập nhật vào Firestore
+        cartRef.set(cartData)
+                .addOnSuccessListener(aVoid -> {
+                    System.out.println("Cart updated successfully with new item.");
+                })
+                .addOnFailureListener(e -> {
+                    System.err.println("Error updating cart: " + e.getMessage());
+                });
+    }
+
+    public static void clearCart(OnCartClearListener listener) {
+        String userEmail = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        DocumentReference cartRef = db.collection("cart").document(userEmail);
+
+        cartRef.update("items", new HashMap<>())  // Clear all items by setting to an empty map
+                .addOnSuccessListener(aVoid -> listener.onSuccess())
+                .addOnFailureListener(listener::onError);
+    }
+
+    public static void updateCart(OnCartListListener listener ) {
+        String userEmail = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        DocumentReference cartRef = db.collection("cart").document(userEmail);
+
+        // Chuyển đổi danh sách items thành Map để lưu vào Firestore
+        Map<String, List<Object>> itemsMap = new HashMap<>();
+        for (CartItems item : items) {
+            List<Object> itemData = new ArrayList<>();
+            itemData.add(item.getId());
+            itemData.add(item.getName());
+            itemData.add(item.getDescription());
+            itemData.add(item.getImage());
+            itemData.add(item.getPrice());
+            itemData.add(item.getQuantity());
+            itemsMap.put(item.getId(), itemData);
+        }
+
+        // Lưu dữ liệu giỏ hàng lên Firestore
+        Map<String, Object> cartData = new HashMap<>();
+        cartData.put("cart_id", userEmail);
+        cartData.put("items", itemsMap);
+
+        cartRef.set(cartData)
+                .addOnSuccessListener(aVoid -> {
+                    listener.onComplete(items);
+                })
+                .addOnFailureListener(e -> {
+                    listener.onError(e);
+                });
+    }
+
+    public interface OnCartClearListener {
+        void onSuccess();
+        void onError(Exception e);
+    }
 }
 
