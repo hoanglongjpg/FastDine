@@ -31,6 +31,7 @@ public class CustomerActivity extends AppCompatActivity {
         // Khởi tạo RecyclerView và adapter
         recyclerView = findViewById(R.id.recyclerView_food_list);
         ctrl.viewAvailableFood(recyclerView);
+        ctrl.getCart();
 
         // Tìm ImageButton giỏ hàng và thiết lập sự kiện click
         ImageButton cartButton = findViewById(R.id.cartButton);

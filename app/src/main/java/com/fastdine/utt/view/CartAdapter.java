@@ -1,4 +1,5 @@
 package com.fastdine.utt.view;
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,10 +16,15 @@ import com.fastdine.utt.model.Cart;
 import java.util.List;
 
 public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder> {
-
+    private Context context;
     private List<Cart.CartItems> cartItemList;
 
     public CartAdapter(List<Cart.CartItems> cartItemList) {
+        this.cartItemList = cartItemList;
+    }
+
+    public CartAdapter(Context context, List<Cart.CartItems> cartItemList) {
+        this.context = context;  // Initialize context
         this.cartItemList = cartItemList;
     }
 
@@ -46,12 +52,25 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
         holder.increaseQuantityButton.setOnClickListener(v -> {
             cartItem.setQuantity(cartItem.getQuantity() + 1);
             notifyItemChanged(position);
+            double total = new Cart("user_email", cartItemList).calTotalPrice(cartItemList);
+            ((CartActivity) context).updateTotalPrice(total);
         });
 
         holder.decreaseQuantityButton.setOnClickListener(v -> {
-            if (cartItem.getQuantity() > 1) {
-                cartItem.setQuantity(cartItem.getQuantity() - 1);
-                notifyItemChanged(position);
+            int newQuantity = cartItem.getQuantity() - 1;
+            if (newQuantity > 0) {
+                cartItem.setQuantity(newQuantity);  // Giảm số lượng trong danh sách static
+                notifyItemChanged(position);   // Cập nhật lại item trên giao diện
+                double total = new Cart("user_email", cartItemList).calTotalPrice(cartItemList);
+                ((CartActivity) context).updateTotalPrice(total);
+            } else {
+                // Xóa món ăn nếu số lượng bằng 0
+                cartItemList.remove(position);
+                Cart.items.remove(cartItem);  // Xóa khỏi danh sách static của Cart
+                notifyItemRemoved(position);  // Cập nhật giao diện sau khi xóa
+                Cart.items = cartItemList;
+                double total = new Cart("user_email", cartItemList).calTotalPrice(cartItemList);
+                ((CartActivity) context).updateTotalPrice(total);
             }
         });
 
