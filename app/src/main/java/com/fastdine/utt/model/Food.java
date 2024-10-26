@@ -142,7 +142,7 @@ public class Food {
     }
 
     // Xoá món ăn
-    public void deleteFood(String foodId) {
+    public static void deleteFood(String foodId) {
 
     }
 }

@@ -11,6 +11,7 @@ captures/
 
 .idea/
 # IntelliJ
+.idea/
 .idea/workspace.xml
 .idea/libraries
 .idea/misc.xml
