@@ -9,7 +9,7 @@ local.properties
 captures/
 .externalNativeBuild/
 
-./idea
+.idea/
 # IntelliJ
 .idea/workspace.xml
 .idea/libraries
