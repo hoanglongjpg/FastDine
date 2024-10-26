@@ -2,14 +2,12 @@ package com.fastdine.utt.controller;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import android.app.Dialog;
 import android.content.Context;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Toast;
-import com.fastdine.utt.R;
+import com.fastdine.utt.model.Cart;
 import com.fastdine.utt.model.Food;
-import com.fastdine.utt.view.CustomerActivity;
+import com.fastdine.utt.view.CartActivity;
+import com.fastdine.utt.view.CartAdapter;
 import com.fastdine.utt.view.FoodAdapter;
 import java.util.List;
 
@@ -45,5 +43,34 @@ public class CustomerController {
         });
     }
 
+    public void viewCart(RecyclerView recyclerView){
+        // Gọi hàm getFoodList từ Food.java
+        Cart.getCartItems(new Cart.OnCartListListener() {
+            @Override
+            public void onComplete(List<Cart.CartItems> items) {
+                // Tạo adapter với dữ liệu món ăn
+                CartAdapter cartAdapter = new CartAdapter(items);
+
+                // Cài đặt LayoutManager cho RecyclerView
+                recyclerView.setLayoutManager(new LinearLayoutManager(context));
+
+                // Cài đặt adapter cho RecyclerView
+                recyclerView.setAdapter(cartAdapter);
+
+                Cart cart = new Cart("user_email", items);
+                double total = cart.calTotalPrice(items);
+                ((CartActivity) context).updateTotalPrice(total);
+
+                // Thông báo thành công (tuỳ chọn)
+                Toast.makeText(context, "Giỏ hàng đã được cập nhật", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onError(Exception e) {
+                // Xử lý khi có lỗi xảy ra
+                Toast.makeText(context, "Lỗi khi tải giỏ hàng " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
 
 }

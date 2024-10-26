@@ -2,39 +2,36 @@ package com.fastdine.utt.view;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.fastdine.utt.R;
-import com.fastdine.utt.model.CartItem;
+import com.fastdine.utt.controller.CustomerController;
+import com.fastdine.utt.model.Cart;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class CartActivity extends AppCompatActivity {
-
+    private CustomerController ctrl;
     private RecyclerView cartRecyclerView;
-    private CartAdapter cartAdapter;
-    private List<CartItem> cartItemList;
+    private TextView totalPriceText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cart);
-
         cartRecyclerView = findViewById(R.id.cartRecyclerView);
+        totalPriceText = findViewById(R.id.totalPriceText);
         cartRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        ctrl = new CustomerController(this);
 
-        // Khởi tạo danh sách item giả
-        cartItemList = new ArrayList<>();
-        cartItemList.add(new CartItem("Trà Chanh Nha Đam", 2, 17000, R.drawable.ic_image));
-        // Thêm nhiều item hơn nếu cần
+        ctrl.viewCart(cartRecyclerView);
+    }
 
-        // Thiết lập adapter
-        cartAdapter = new CartAdapter(cartItemList);
-        cartRecyclerView.setAdapter(cartAdapter);
+    public void updateTotalPrice(double total) {
+            totalPriceText.setText(String.format("%.2fđ", total)); // Hiển thị giá tổng
     }
 
     public void closeCart(View view) {
