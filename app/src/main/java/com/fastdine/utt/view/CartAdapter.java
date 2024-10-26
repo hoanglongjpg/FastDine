@@ -8,16 +8,17 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.fastdine.utt.R;
-import com.fastdine.utt.model.CartItem;
+import com.fastdine.utt.model.Cart;
 
 import java.util.List;
 
 public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder> {
 
-    private List<CartItem> cartItemList;
+    private List<Cart.CartItems> cartItemList;
 
-    public CartAdapter(List<CartItem> cartItemList) {
+    public CartAdapter(List<Cart.CartItems> cartItemList) {
         this.cartItemList = cartItemList;
     }
 
@@ -30,12 +31,16 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull CartViewHolder holder, int position) {
-        CartItem cartItem = cartItemList.get(position);
+        Cart.CartItems cartItem = cartItemList.get(position);
 
         holder.itemName.setText(cartItem.getName());
         holder.itemPrice.setText(cartItem.getPrice() + "đ");
         holder.itemQuantity.setText(String.valueOf(cartItem.getQuantity()));
-        holder.itemImage.setImageResource(cartItem.getImageResId());
+
+        // Assuming the image is stored as a URL; you may need a library like Glide or Picasso to load images from URLs.
+        Glide.with(holder.itemView.getContext())
+                .load(cartItem.getImage()) // Load image from URL or resource ID
+                .into(holder.itemImage);
 
         // Xử lý tăng giảm số lượng
         holder.increaseQuantityButton.setOnClickListener(v -> {
@@ -49,7 +54,10 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
                 notifyItemChanged(position);
             }
         });
+
+
     }
+
 
     @Override
     public int getItemCount() {
