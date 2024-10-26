@@ -17,8 +17,6 @@ import java.util.List;
 public class OwnerActivity extends AppCompatActivity {
     private OwnerController ctrl;
     private RecyclerView recyclerView;
-    private FoodAdapter adapter;
-    private List<Food> foodList;
 
     //Khởi tạo giao diện
     @Override
@@ -29,7 +27,6 @@ public class OwnerActivity extends AppCompatActivity {
 
         // Khởi tạo RecyclerView và adapter
         recyclerView = findViewById(R.id.recyclerView_food_list);
-        OwnerController ctrl = new OwnerController (this);
         ctrl.viewFoodList(recyclerView);
 
         // Xử lý sự kiện khi nhấn nút "Thêm"

@@ -37,7 +37,6 @@ public class CustomerController {
                 // Thông báo thành công (tuỳ chọn)
                 Toast.makeText(context, "Danh sách món ăn đã được cập nhật", Toast.LENGTH_SHORT).show();
             }
-
             @Override
             public void onError(Exception e) {
                 // Xử lý khi có lỗi xảy ra

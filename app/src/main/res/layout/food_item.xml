@@ -44,28 +44,44 @@
     </LinearLayout>
 
     <!-- LinearLayout chứa các nút Sửa và Xoá, nằm bên phải -->
+    <!-- Bộ phận chứa nút cho customer -->
     <LinearLayout
+        android:id="@+id/customerActions"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:gravity="end">
+        android:gravity="end"
+        android:visibility="gone"> <!-- Mặc định ẩn -->
+
+        <ImageButton
+            android:id="@+id/addButton"
+            android:layout_width="54dp"
+            android:layout_height="54dp"
+            android:contentDescription="Add"
+            android:src="@drawable/ic_add"/>
+    </LinearLayout>
+
+    <!-- Bộ phận chứa nút cho owner -->
+    <LinearLayout
+        android:id="@+id/ownerActions"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="end"
+        android:visibility="gone"> <!-- Mặc định ẩn -->
 
         <ImageButton
             android:id="@+id/editButton"
             android:layout_width="54dp"
             android:layout_height="54dp"
-            android:contentDescription="Sua"
-            android:layout_marginStart="1dp"
-            android:layout_marginEnd="10dp"
-            android:src="@drawable/ic_edit"
-            android:visibility="visible" /> <!-- Mặc định ẩn -->
+            android:contentDescription="Edit"
+            android:src="@drawable/ic_edit"/>
 
         <ImageButton
             android:id="@+id/deleteButton"
             android:layout_width="54dp"
             android:layout_height="54dp"
-            android:contentDescription="Xoa"
-            android:src="@drawable/ic_delete"
-            android:visibility="visible" /> <!-- Mặc định ẩn -->
+            android:contentDescription="Delete"
+            android:src="@drawable/ic_delete"/>
     </LinearLayout>
 </LinearLayout>

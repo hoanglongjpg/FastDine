@@ -25,6 +25,13 @@
         @Override
         public FoodViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.food_item, parent, false);
+
+            // Kiểm tra Activity là activity_customer hay activity_owner
+            if (parent.getContext() instanceof CustomerActivity) {
+                view.findViewById(R.id.customerActions).setVisibility(View.VISIBLE);
+            } else if (parent.getContext() instanceof OwnerActivity) {
+                view.findViewById(R.id.ownerActions).setVisibility(View.VISIBLE);
+            }
             return new FoodViewHolder(view);
         }
 
