@@ -39,7 +39,6 @@ public class CartActivity extends AppCompatActivity {
 
     }
 
-
     public void updateTotalPrice(double total) {
         String strtotal = currencyFormat.format(total);
         totalPriceText.setText(String.format("%sđ", strtotal)); // Hiển thị giá tổng

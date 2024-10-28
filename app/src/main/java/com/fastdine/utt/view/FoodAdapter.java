@@ -62,11 +62,16 @@
                     .load(foodItem.getImage())
                     .into(holder.foodImageView);
 
-
             // Thiết lập nút xóa
             holder.buttonDelete.setOnClickListener(v -> {
                 // Gọi phương thức deleteFood trong OwnerController
                 ownerController.deleteFood(foodItem.getId(), ((RecyclerView) holder.itemView.getParent()));
+            });
+
+            // Thiết lập nút sửa
+            holder.editButton.setOnClickListener(v -> {
+                // Gọi phương thức editFood trong OwnerController
+                ownerController.editFood(foodItem, ((RecyclerView) holder.itemView.getParent()), holder.itemView.getContext());
             });
 
             // Thiết lập sự kiện click cho nút "+"
@@ -76,7 +81,6 @@
                         foodItem.getImage(), foodItem.getPrice(), 1);
                 customerController.addItemToCart(newItem); // Thêm vào giỏ hàng thông qua controller
             });
-
         }
 
         @Override
@@ -86,14 +90,15 @@
 
         public static class FoodViewHolder extends RecyclerView.ViewHolder {
 
-            public View buttonDelete;
-            ImageButton editButton, deleteButton, addButton;
+            public View buttonDelete, editButton;
+            ImageButton addButton;
             TextView nameTextView, descriptionTextView, priceTextView;
             ImageView foodImageView;
 
             public FoodViewHolder(@NonNull View itemView) {
                 super(itemView);
                 LinearLayout customerActions = itemView.findViewById(R.id.customerActions);
+                editButton = itemView.findViewById(R.id.editButton);
                 addButton = customerActions.findViewById(R.id.addButton);
                 nameTextView = itemView.findViewById(R.id.nameTextView);
                 descriptionTextView = itemView.findViewById(R.id.descriptionTextView);
