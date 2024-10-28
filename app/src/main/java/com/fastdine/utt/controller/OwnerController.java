@@ -113,14 +113,54 @@ public class OwnerController {
     }
 
     //Sửa món ăn
-    public void updateFood(){
+    public void editFood(Food foodItem, RecyclerView recyclerView, Context context) {
+        Dialog dialog = new Dialog(context);
+        dialog.setContentView(R.layout.dialog_update_food);
 
+        // Lấy các view từ dialog và điền sẵn thông tin món ăn
+        EditText editTextName = dialog.findViewById(R.id.editText_food_name);
+        EditText editTextDescription = dialog.findViewById(R.id.editText_food_description);
+        EditText editTextPrice = dialog.findViewById(R.id.editText_food_price);
+        EditText editTextImage = dialog.findViewById(R.id.editText_food_image);
+        Button buttonCancel = dialog.findViewById(R.id.button_cancel);
+        Button buttonSave = dialog.findViewById(R.id.button_save);
+
+        editTextName.setText(foodItem.getName());
+        editTextDescription.setText(foodItem.getDescription());
+        editTextPrice.setText(String.valueOf(foodItem.getPrice()));
+        editTextImage.setText(foodItem.getImage());
+
+        // Sự kiện hủy
+        buttonCancel.setOnClickListener(v -> dialog.dismiss());
+
+        // Sự kiện lưu
+        buttonSave.setOnClickListener(v -> {
+            foodItem.setName(editTextName.getText().toString().trim());
+            foodItem.setDescription(editTextDescription.getText().toString().trim());
+            foodItem.setPrice(Double.parseDouble(editTextPrice.getText().toString().trim()));
+            foodItem.setImage(editTextImage.getText().toString().trim());
+
+            // Gọi hàm updateFood từ Food.java
+            Food.updateFood(foodItem, new Food.OnFoodListListener() {
+                @Override
+                public void onComplete(List<Food> foodList) {
+                    Toast.makeText(context, "Cập nhật món ăn thành công", Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void onError(Exception e) {
+                    Toast.makeText(context, "Cập nhật món ăn thất bại: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
+            dialog.dismiss();
+            viewFoodList(recyclerView);
+        });
+        dialog.show();
     }
 
     //Xoá món ăn
     public void deleteFood(String foodId, RecyclerView recyclerView) {
         // Tạo dialog xác nhận xóa
-
         new AlertDialog.Builder(context)
                 .setTitle("Xác nhận xóa")
                 .setMessage("Bạn có chắc chắn muốn xóa món ăn này?")

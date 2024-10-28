@@ -32,14 +32,14 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Hủy" />
+            android:text="Hủy"
+            android:layout_marginRight="20dp"/>
 
         <Button
             android:id="@+id/confirmDeleteButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Xóa tất cả"
-            android:textColor="#FF0000" />
+            android:text="Xóa tất cả" />
     </LinearLayout>
 </LinearLayout>

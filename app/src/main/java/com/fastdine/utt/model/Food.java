@@ -28,7 +28,6 @@ public class Food {
         this.price = price;
     }
 
-
     public Food(){
     }
 
@@ -121,21 +120,12 @@ public class Food {
     }
 
     //Sửa món ăn
-    public void updateFood(Food food, OnFoodListListener listener) {
+    public static void updateFood(Food food, OnFoodListListener listener) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        // Giả sử bạn đã có ID của món ăn, bạn cần phải có thêm trường ID trong Food
-        String foodId = food.getId(); // Cần có phương thức getId() trong Food
-
-        // Cập nhật món ăn trong Firestore
-        db.collection("foods").document(foodId)
+        db.collection("foods").document(food.getId())
                 .set(food)
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        listener.onComplete(null); // Hoặc trả về món ăn đã sửa
-                    } else {
-                        listener.onError(task.getException());
-                    }
-                });
+                .addOnSuccessListener(aVoid -> listener.onComplete(null))
+                .addOnFailureListener(listener::onError);
     }
 
     // Xoá món ăn

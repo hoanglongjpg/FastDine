@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.fastdine.utt.R;
 import com.fastdine.utt.controller.CustomerController;
 import com.fastdine.utt.model.Cart;
-
+import java.text.DecimalFormat;
 import java.util.List;
 
 public class CartActivity extends AppCompatActivity {
@@ -21,9 +21,12 @@ public class CartActivity extends AppCompatActivity {
     public RecyclerView cartRecyclerView;
     private TextView totalPriceText;
 
+    DecimalFormat currencyFormat = new DecimalFormat("#,###");
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_cart);
         cartRecyclerView = findViewById(R.id.cartRecyclerView);
         totalPriceText = findViewById(R.id.totalPriceText);
@@ -37,7 +40,8 @@ public class CartActivity extends AppCompatActivity {
     }
 
     public void updateTotalPrice(double total) {
-            totalPriceText.setText(String.format("%.2fđ", total)); // Hiển thị giá tổng
+        String strtotal = currencyFormat.format(total);
+        totalPriceText.setText(String.format("%sđ", strtotal)); // Hiển thị giá tổng
     }
 
     public void closeCart(View view) {
