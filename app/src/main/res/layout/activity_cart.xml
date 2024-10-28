@@ -62,7 +62,6 @@
             android:layout_weight="1"
             android:text="0đ"
             android:textSize="18sp"
-            android:textColor="#FF5722"
             android:gravity="center_vertical" />
 
         <Button
