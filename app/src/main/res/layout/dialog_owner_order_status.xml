@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="#F3E5F5"
+    android:layout_gravity="center"
+    android:elevation="4dp"
+    android:layout_margin="16dp"
+    android:backgroundTint="#EDE7F6">
+
+    <!-- Tiêu đề của hộp thoại -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Trạng thái đơn hàng"
+        android:textSize="18sp"
+        android:textColor="#6A1B9A"
+        android:fontFamily="sans-serif-medium"
+        android:paddingBottom="8dp" />
+
+    <!-- RadioGroup cho các trạng thái đơn hàng -->
+    <RadioGroup
+        android:id="@+id/radioGroupOrderStatus"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RadioButton
+            android:id="@+id/radioReceived"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Đã nhận"
+            android:textColor="#6A1B9A" />
+
+        <RadioButton
+            android:id="@+id/radioPreparing"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Đang chuẩn bị"
+            android:textColor="#6A1B9A" />
+
+        <RadioButton
+            android:id="@+id/radioDelivered"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Đã giao"
+            android:textColor="#6A1B9A" />
+    </RadioGroup>
+
+    <!-- Nút Hủy và Thay đổi trạng thái -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="end"
+        android:paddingTop="16dp">
+
+        <Button
+            android:id="@+id/btnCancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Hủy"
+            android:padding="8dp" />
+
+        <Button
+            android:id="@+id/btnChange"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Thay đổi"
+            android:padding="8dp" />
+    </LinearLayout>
+</LinearLayout>
