@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <!-- Tiêu đề hồ sơ cá nhân -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Hồ sơ cá nhân"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_gravity="center_horizontal"
+        android:paddingBottom="16dp" />
+
+    <!-- Ảnh hồ sơ -->
+    <ImageView
+        android:id="@+id/profileImage"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:src="@drawable/ic_profile_image_placeholder"
+        android:layout_gravity="center"
+        android:contentDescription="Ảnh hồ sơ"
+        android:padding="8dp"
+        android:background="@drawable/profile_image_background" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="Ảnh hồ sơ"
+        android:textSize="14sp"
+        android:paddingTop="8dp" />
+
+    <!-- Thông tin cá nhân -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- Tên -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tên:"
+            android:textStyle="bold" />
+        <TextView
+            android:id="@+id/profileName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Trần Đức Mạnh" />
+
+        <!-- Tên đăng nhập -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tên đăng nhập:"
+            android:textStyle="bold"
+            android:paddingTop="8dp" />
+        <TextView
+            android:id="@+id/profileUsername"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="vhsvdajvdvajvdaj" />
+
+        <!-- Giới tính -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Giới tính:"
+            android:textStyle="bold"
+            android:paddingTop="8dp" />
+        <TextView
+            android:id="@+id/profileGender"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Nam" />
+
+        <!-- Ngày sinh -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ngày sinh:"
+            android:textStyle="bold"
+            android:paddingTop="8dp" />
+        <TextView
+            android:id="@+id/profileDOB"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="06/01/2004" />
+
+        <!-- Số điện thoại -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Số điện thoại:"
+            android:textStyle="bold"
+            android:paddingTop="8dp" />
+        <TextView
+            android:id="@+id/profilePhone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0941411256" />
+
+        <!-- Email -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Email:"
+            android:textStyle="bold"
+            android:paddingTop="8dp" />
+        <TextView
+            android:id="@+id/profileEmail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ratdjb@gmail.com" />
+
+        <!-- Địa chỉ -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Địa chỉ:"
+            android:textStyle="bold"
+            android:paddingTop="8dp" />
+        <TextView
+            android:id="@+id/profileAddress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="8/2/73 Hà nội" />
+    </LinearLayout>
+
+    <!-- Nút đăng xuất -->
+    <Button
+        android:id="@+id/logoutButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Đăng xuất"
+        android:layout_gravity="center_horizontal"
+        android:backgroundTint="#A9A9A9"
+        android:textColor="@android:color/white"
+        android:layout_marginTop="16dp" />
+</LinearLayout>
