@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Context;
 import android.widget.Toast;
 import com.fastdine.utt.model.Cart;
+import com.fastdine.utt.model.Customer;
 import com.fastdine.utt.model.Food;
 import com.fastdine.utt.view.CartActivity;
 import com.fastdine.utt.view.CartAdapter;
@@ -142,6 +143,25 @@ public class CustomerController {
             public void onError(Exception e) {
                 // Xử lý khi có lỗi xảy ra
                 Toast.makeText(context, "Lỗi khi thêm món ăn vào giỏ hàng " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    public void getInfo(){
+
+    }
+
+    public void saveInfo(){
+        Customer.saveCustomer(new Customer.OnCustomerListener() {
+            @Override
+            public void onComplete() {
+                // Thông báo thành công (tuỳ chọn)
+                Toast.makeText(context, "Cập nhật thông tin khách hàng thành công", Toast.LENGTH_SHORT).show();
+            }
+            @Override
+            public void onError(Exception e) {
+                // Xử lý khi có lỗi xảy ra
+                Toast.makeText(context, "Lỗi khi cập nhật thông tin cá nhân " + e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
