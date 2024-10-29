@@ -39,6 +39,7 @@
         <activity android:name=".view.CustomerActivity" />
         <activity android:name=".view.OwnerActivity" />
         <activity android:name=".view.CartActivity" />
+        <activity android:name=".view.ProfileActivity" />
         <!-- Có thể khai báo thêm các activity khác nếu cần -->
     </application>
 

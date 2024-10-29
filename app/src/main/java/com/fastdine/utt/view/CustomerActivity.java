@@ -12,6 +12,7 @@ import com.fastdine.utt.R;
 import com.fastdine.utt.controller.CustomerController;
 import com.fastdine.utt.controller.OwnerController;
 import com.fastdine.utt.model.Food;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
@@ -26,6 +27,7 @@ public class CustomerActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_customer);
+        setContentView(R.layout.customer_view_profile);
         ctrl = new CustomerController(this);
 
         // Khởi tạo RecyclerView và adapter
@@ -42,6 +44,18 @@ public class CustomerActivity extends AppCompatActivity {
                 Intent intent = new Intent(CustomerActivity.this, CartActivity.class);
                 startActivity(intent);
             }
+        });
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
+
+        // Thiết lập sự kiện khi nhấn vào các item trong BottomNavigationView
+        bottomNavigationView.setOnItemSelectedListener(item -> {
+            if (item.getItemId() == R.id.nav_more) {
+                // Mở ProfileActivity khi nhấn vào nav_more
+                Intent intent = new Intent(CustomerActivity.this, ProfileActivity.class);
+                startActivity(intent);
+                return true;
+            }
+            return false;
         });
     }
 }
