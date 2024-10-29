@@ -102,7 +102,7 @@ public class Customer {
                         // Lưu thất bại
                 });
     }
-    
+
     // Hàm lấy thông tin khách hàng từ Firestore
     public void getCustomerInfo(String customerId, OnSuccessListener<DocumentSnapshot> listener) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
