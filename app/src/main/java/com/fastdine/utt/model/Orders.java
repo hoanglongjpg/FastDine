@@ -20,16 +20,7 @@ public class Orders {
     private String phone;
     private String status;
     private double totalPrice;
-
-    public Orders(String customerId, String name, String address, String phone, List<Cart.CartItems> items, Date orderTime, String status) {
-        this.customerId = customerId;
-        this.name = name;
-        this.address = address;
-        this.phone = phone;
-        this.items = items;
-        this.orderTime = orderTime;
-        this.status = status;
-    }
+    
 
     public Orders(String name, String address, String phone, List<Cart.CartItems> items, Date orderTime, String status) {
         this.name = name;
