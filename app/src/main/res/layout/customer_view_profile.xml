@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -21,11 +20,9 @@
         android:id="@+id/profileImage"
         android:layout_width="150dp"
         android:layout_height="150dp"
-        android:src="@drawable/ic_profile_image_placeholder"
         android:layout_gravity="center"
         android:contentDescription="Ảnh hồ sơ"
-        android:padding="8dp"
-        android:background="@drawable/profile_image_background" />
+        android:padding="8dp" />
 
     <TextView
         android:layout_width="wrap_content"

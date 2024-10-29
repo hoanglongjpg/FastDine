@@ -36,6 +36,10 @@ public class CartActivity extends AppCompatActivity {
         // Set click listener for the clear cart button
         findViewById(R.id.clearCartButton).setOnClickListener(v -> showDeleteConfirmationDialog());
 
+        //Sự kiện nút "Giao hàng"
+        // Trong CartActivity.java
+        Button orderButton = findViewById(R.id.orderButton);
+        orderButton.setOnClickListener(v -> ctrl.showOrderDialog(this));
     }
 
     public void updateTotalPrice(double total) {
