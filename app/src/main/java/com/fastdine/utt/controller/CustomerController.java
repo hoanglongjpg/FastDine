@@ -24,6 +24,7 @@ import com.fastdine.utt.view.CartAdapter;
 import com.fastdine.utt.view.FoodAdapter;
 import com.fastdine.utt.view.OrderAdapter;
 import com.google.firebase.Timestamp;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.Date;
 import java.util.List;
@@ -217,7 +218,7 @@ public class CustomerController {
         }
         Date date = new Date(System.currentTimeMillis());
         // Tạo đơn hàng
-        Orders order = new Orders(name, address, phone, cartItems, date , "Pending");
+        Orders order = new Orders(name, address, phone, cartItems, date , "Đã nhận");
 
         // Lưu đơn hàng vào Firestore
         Orders.addOrder(order, new Orders.OnOrderListener() {
@@ -270,7 +271,8 @@ public class CustomerController {
 
     // Hàm để hiển thị danh sách đơn hàng
     public void viewOrderList(RecyclerView recyclerView) {
-        Orders.getOrderList(new Orders.OnOrderListListener() {
+        String userEmail = FirebaseAuth.getInstance().getCurrentUser().getEmail(); // Lấy email của người dùng hiện tại
+        Orders.getOrderListCustomer(userEmail, new Orders.OnOrderListListener() {
             @Override
             public void onOrderListReceived(List<Orders> ordersList) {
                 // Tạo adapter với dữ liệu đơn hàng
@@ -293,4 +295,5 @@ public class CustomerController {
             }
         });
     }
+
 }

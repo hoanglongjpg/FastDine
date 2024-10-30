@@ -166,6 +166,54 @@ public class Orders {
                 });
     }
 
+    public static void getOrderListCustomer(String customerId, OnOrderListListener listener) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        // Lọc đơn hàng theo customer_id
+        db.collection("orders")
+                .whereEqualTo("customer_id", customerId) // Lọc theo customer_id
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        List<Orders> ordersList = new ArrayList<>();
+                        QuerySnapshot querySnapshot = task.getResult();
+
+                        for (QueryDocumentSnapshot document : querySnapshot) {
+                            // Chuyển đổi tài liệu thành đối tượng Orders
+                            Orders order = document.toObject(Orders.class);
+                            order.setOrderId(document.getId());
+
+                            // Khôi phục items từ List
+                            List<Map<String, Object>> itemsList = (List<Map<String, Object>>) document.get("items");
+                            List<Cart.CartItems> cartItemsList = new ArrayList<>();
+
+                            if (itemsList != null) {
+                                for (Map<String, Object> itemData : itemsList) {
+                                    Cart.CartItems item = new Cart.CartItems();
+                                    item.setId((String) itemData.get("id")); // Lấy ID từ itemData
+
+                                    // Lấy thông tin từ itemData
+                                    item.setName((String) itemData.get("name"));
+                                    item.setDescription((String) itemData.get("description"));
+                                    item.setImage((String) itemData.get("image"));
+                                    item.setPrice((Double) itemData.get("price"));
+                                    item.setQuantity(((Long) itemData.get("quantity")).intValue()); // Chuyển đổi Long thành int
+
+                                    cartItemsList.add(item); // Thêm item vào danh sách cartItemsList
+                                }
+                            }
+
+                            order.setItems(cartItemsList); // Gán danh sách items vào đối tượng Orders
+                            ordersList.add(order); // Thêm đơn hàng vào danh sách
+                        }
+
+                        listener.onOrderListReceived(ordersList);
+                    } else {
+                        listener.onError(task.getException());
+                    }
+                });
+    }
+
     public static void addOrder(Orders order, OnOrderListener listener) {
         // Lấy email của khách hàng
         String userEmail = FirebaseAuth.getInstance().getCurrentUser().getEmail();
