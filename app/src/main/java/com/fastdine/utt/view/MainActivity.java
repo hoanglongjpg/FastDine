@@ -11,6 +11,7 @@ import android.widget.Toast;
 import com.fastdine.utt.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -33,18 +34,39 @@ public class MainActivity extends AppCompatActivity {
             startActivity(new Intent(MainActivity.this, LoginActivity.class));
             finish();
         } else {
-            // Hiển thị thông tin người dùng
-            Toast.makeText(this, "Welcome " + currentUser.getEmail(), Toast.LENGTH_SHORT).show();
+            // Nếu đã đăng nhập, kiểm tra vai trò người dùng
+            checkUserRole(currentUser.getEmail());
         }
 
         // Xử lý sự kiện khi người dùng nhấn nút đăng xuất
-        logoutButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mAuth.signOut();
-                startActivity(new Intent(MainActivity.this, LoginActivity.class));
-                finish();
-            }
+        logoutButton.setOnClickListener(v -> {
+            mAuth.signOut();
+            startActivity(new Intent(MainActivity.this, LoginActivity.class));
+            finish();
         });
+    }
+
+    private void checkUserRole(String email) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        // Kiểm tra xem người dùng có phải là chủ cửa hàng không
+        db.collection("owner")
+                .whereEqualTo("email", email)
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    Intent intent;
+                    if (!queryDocumentSnapshots.isEmpty()) {
+                        // Người dùng là chủ cửa hàng
+                        intent = new Intent(MainActivity.this, OwnerActivity.class);
+                    } else {
+                        // Người dùng là khách hàng
+                        intent = new Intent(MainActivity.this, CustomerActivity.class);
+                    }
+                    startActivity(intent);
+                    finish(); // Đóng MainActivity
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(MainActivity.this, "Error retrieving user role.", Toast.LENGTH_SHORT).show();
+                    finish(); // Đóng MainActivity
+                });
     }
 }

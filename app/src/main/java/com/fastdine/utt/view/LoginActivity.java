@@ -39,19 +39,11 @@ public class LoginActivity extends AppCompatActivity {
         loginButton = findViewById(R.id.login_button);
 
         // Xử lý sự kiện khi người dùng nhấn nút đăng nhập
-        loginButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                loginUser();
-            }
-        });
+        loginButton.setOnClickListener(v -> loginUser());
 
         // Điều hướng đến màn hình đăng ký nếu chưa có tài khoản
-        findViewById(R.id.register_redirect).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
-            }
+        findViewById(R.id.register_redirect).setOnClickListener(v -> {
+            startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
         });
     }
 
@@ -72,40 +64,38 @@ public class LoginActivity extends AppCompatActivity {
 
         // Đăng nhập người dùng bằng Firebase Authentication
         mAuth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            // Đăng nhập thành công, kiểm tra vai trò người dùng
-                            Toast.makeText(LoginActivity.this, "Login successful", Toast.LENGTH_SHORT).show();
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        // Đăng nhập thành công, kiểm tra vai trò người dùng
+                        Toast.makeText(LoginActivity.this, "Login successful", Toast.LENGTH_SHORT).show();
 
-                            // Lấy thông tin người dùng hiện tại
-                            FirebaseUser currentUser = mAuth.getCurrentUser();
-                            FirebaseFirestore db = FirebaseFirestore.getInstance();
+                        // Lấy thông tin người dùng hiện tại
+                        FirebaseUser currentUser = mAuth.getCurrentUser();
+                        FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-                            // Kiểm tra xem người dùng có phải là chủ cửa hàng không
-                            db.collection("owner")
-                                    .whereEqualTo("email", email)
-                                    .get()
-                                    .addOnSuccessListener(queryDocumentSnapshots -> {
-                                        if (!queryDocumentSnapshots.isEmpty()) {
-                                            // Người dùng là chủ cửa hàng
-                                            startActivity(new Intent(LoginActivity.this, OwnerActivity.class));
-                                        } else {
-                                            // Người dùng là khách hàng
-                                            startActivity(new Intent(LoginActivity.this, CustomerActivity.class));
-                                        }
-                                        finish(); // Đóng LoginActivity
-                                    })
-                                    .addOnFailureListener(e -> {
-                                        Toast.makeText(LoginActivity.this, "Error retrieving user role.", Toast.LENGTH_SHORT).show();
-                                        finish(); // Đóng LoginActivity
-                                    });
-                        } else {
-                            // Hiển thị lỗi nếu đăng nhập thất bại
-                            Toast.makeText(LoginActivity.this, "Login failed: " + task.getException().getMessage(), Toast.LENGTH_LONG).show();
-                            finish(); // Đóng LoginActivity
-                        }
+                        // Kiểm tra xem người dùng có phải là chủ cửa hàng không
+                        db.collection("owner")
+                                .whereEqualTo("email", email)
+                                .get()
+                                .addOnSuccessListener(queryDocumentSnapshots -> {
+                                    Intent intent;
+                                    if (!queryDocumentSnapshots.isEmpty()) {
+                                        // Người dùng là chủ cửa hàng
+                                        intent = new Intent(LoginActivity.this, OwnerActivity.class);
+                                    } else {
+                                        // Người dùng là khách hàng
+                                        intent = new Intent(LoginActivity.this, CustomerActivity.class);
+                                    }
+                                    startActivity(intent);
+                                    finish(); // Đóng LoginActivity
+                                })
+                                .addOnFailureListener(e -> {
+                                    Toast.makeText(LoginActivity.this, "Error retrieving user role.", Toast.LENGTH_SHORT).show();
+                                    finish(); // Đóng LoginActivity
+                                });
+                    } else {
+                        // Hiển thị lỗi nếu đăng nhập thất bại
+                        Toast.makeText(LoginActivity.this, "Login failed: " + task.getException().getMessage(), Toast.LENGTH_LONG).show();
                     }
                 });
     }
