@@ -12,6 +12,7 @@ import com.fastdine.utt.R;
 import com.fastdine.utt.model.Food;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import java.util.ArrayList;
@@ -55,8 +56,7 @@ public class OwnerActivity extends AppCompatActivity {
         // Khởi tạo nút đăng xuất
         FloatingActionButton logoutButton = findViewById(R.id.logout_button);
         logoutButton.setOnClickListener(v -> {
-            // Xóa thông tin đăng nhập hoặc thực hiện các hành động cần thiết
-            // Ví dụ: Chuyển đến LoginActivity
+            FirebaseAuth.getInstance().signOut();
             Intent intent = new Intent(OwnerActivity.this, LoginActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);

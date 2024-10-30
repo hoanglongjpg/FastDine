@@ -1,13 +1,11 @@
 package com.fastdine.utt.view;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
-
 import com.fastdine.utt.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -40,9 +38,10 @@ public class MainActivity extends AppCompatActivity {
 
         // Xử lý sự kiện khi người dùng nhấn nút đăng xuất
         logoutButton.setOnClickListener(v -> {
-            mAuth.signOut();
-            startActivity(new Intent(MainActivity.this, LoginActivity.class));
-            finish();
+            mAuth.signOut(); // Đăng xuất người dùng
+            Toast.makeText(MainActivity.this, "Đăng xuất thành công", Toast.LENGTH_SHORT).show(); // Thông báo xác nhận
+            startActivity(new Intent(MainActivity.this, LoginActivity.class)); // Chuyển đến LoginActivity
+            finish(); // Kết thúc MainActivity
         });
     }
 
