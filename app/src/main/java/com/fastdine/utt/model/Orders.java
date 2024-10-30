@@ -6,11 +6,14 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
+import java.util.Random;
 
 public class Orders {
     private String orderId;
@@ -164,9 +167,16 @@ public class Orders {
     }
 
     public static void addOrder(Orders order, OnOrderListener listener) {
+        // Lấy email của khách hàng
         String userEmail = FirebaseAuth.getInstance().getCurrentUser().getEmail();
-        order.setCustomerId(userEmail);
+        order.setCustomerId(userEmail); // Đảm bảo email của khách hàng được đặt vào trường customer_id
         FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        // Tạo document ID theo định dạng yêu cầu
+        SimpleDateFormat dateFormat = new SimpleDateFormat("ddMMyyyy-HHmmss", Locale.getDefault());
+        String currentTime = dateFormat.format(new Date());
+        String randomDigits = String.format("%04d", new Random().nextInt(10000));
+        String documentId = currentTime + "-" + randomDigits;
 
         // Chuyển đổi danh sách món ăn trong đơn hàng thành một List để lưu trữ trên Firestore
         List<Map<String, Object>> itemsList = new ArrayList<>();
@@ -185,25 +195,26 @@ public class Orders {
         for (Cart.CartItems item : order.items) {
             total += item.getPrice() * item.getQuantity();
         }
-
         order.setTotalPrice(total);
-        // Chuẩn bị dữ liệu để lưu lên Firestore
+
+        // Chuẩn bị dữ liệu để lưu lên Firestore, bao gồm trường customer_id
         Map<String, Object> orderData = new HashMap<>();
         orderData.put("customer_id", order.getCustomerId());
         orderData.put("name", order.getName());
         orderData.put("address", order.getAddress());
         orderData.put("phone", order.getPhone());
-        orderData.put("items", itemsList); // Sử dụng List thay vì Map
+        orderData.put("items", itemsList);
         orderData.put("orderTime", order.orderTime);
         orderData.put("status", order.getStatus());
         orderData.put("totalPrice", order.getTotalPrice());
 
-        // Thêm đơn hàng vào Firestore
+        // Thêm đơn hàng vào Firestore với document ID tùy chỉnh
         db.collection("orders")
-                .add(orderData)
-                .addOnSuccessListener(documentReference -> {
+                .document(documentId)
+                .set(orderData)
+                .addOnSuccessListener(aVoid -> {
                     // Gán documentID vào trường id của đối tượng Orders
-                    order.setOrderId(documentReference.getId());
+                    order.setOrderId(documentId);
                     listener.onComplete(order.getOrderId());
                 })
                 .addOnFailureListener(listener::onError);
