@@ -2,7 +2,9 @@ package com.fastdine.utt.view;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -46,6 +48,12 @@ public class CustomerActivity extends AppCompatActivity {
                 // Hiển thị danh sách đơn hàng
                 ctrl.viewOrderList(recyclerView);
                 return true;
+            } else if (item.getItemId() == R.id.nav_more) {
+                // Mở ProfileActivity khi nhấn vào nav_more
+                Intent intent = new Intent(CustomerActivity.this, ProfileActivity.class);
+                startActivity(intent);
+                return true;
+
             }
             return false;
         });

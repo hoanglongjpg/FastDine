@@ -17,20 +17,11 @@
 
     <!-- Ảnh hồ sơ -->
     <ImageView
-        android:id="@+id/profileImage"
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:layout_gravity="center"
         android:contentDescription="Ảnh hồ sơ"
         android:padding="8dp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:text="Ảnh hồ sơ"
-        android:textSize="14sp"
-        android:paddingTop="8dp" />
 
     <!-- Thông tin cá nhân -->
     <LinearLayout
@@ -48,47 +39,7 @@
         <TextView
             android:id="@+id/profileName"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Trần Đức Mạnh" />
-
-        <!-- Tên đăng nhập -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Tên đăng nhập:"
-            android:textStyle="bold"
-            android:paddingTop="8dp" />
-        <TextView
-            android:id="@+id/profileUsername"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="vhsvdajvdvajvdaj" />
-
-        <!-- Giới tính -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Giới tính:"
-            android:textStyle="bold"
-            android:paddingTop="8dp" />
-        <TextView
-            android:id="@+id/profileGender"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Nam" />
-
-        <!-- Ngày sinh -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Ngày sinh:"
-            android:textStyle="bold"
-            android:paddingTop="8dp" />
-        <TextView
-            android:id="@+id/profileDOB"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="06/01/2004" />
+            android:layout_height="wrap_content" />
 
         <!-- Số điện thoại -->
         <TextView
@@ -100,8 +51,7 @@
         <TextView
             android:id="@+id/profilePhone"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="0941411256" />
+            android:layout_height="wrap_content" />
 
         <!-- Email -->
         <TextView
@@ -113,8 +63,7 @@
         <TextView
             android:id="@+id/profileEmail"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="ratdjb@gmail.com" />
+            android:layout_height="wrap_content" />
 
         <!-- Địa chỉ -->
         <TextView
@@ -126,8 +75,7 @@
         <TextView
             android:id="@+id/profileAddress"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="8/2/73 Hà nội" />
+            android:layout_height="wrap_content" />
     </LinearLayout>
 
     <!-- Nút đăng xuất -->
@@ -137,7 +85,5 @@
         android:layout_height="wrap_content"
         android:text="Đăng xuất"
         android:layout_gravity="center_horizontal"
-        android:backgroundTint="#A9A9A9"
-        android:textColor="@android:color/white"
         android:layout_marginTop="16dp" />
 </LinearLayout>

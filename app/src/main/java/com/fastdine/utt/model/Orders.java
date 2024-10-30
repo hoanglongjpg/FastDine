@@ -132,31 +132,28 @@ public class Orders {
                             Orders order = document.toObject(Orders.class);
                             order.setOrderId(document.getId());
 
-                            // Khôi phục items từ Map
-                            Map<String, Map<String, Object>> itemsMap = (Map<String, Map<String, Object>>) document.get("items");
-                            List<Cart.CartItems> itemsList = new ArrayList<>();
+                            // Khôi phục items từ List
+                            List<Map<String, Object>> itemsList = (List<Map<String, Object>>) document.get("items");
+                            List<Cart.CartItems> cartItemsList = new ArrayList<>();
 
-                            if (itemsMap != null) {
-                                for (Map.Entry<String, Map<String, Object>> entry : itemsMap.entrySet()) {
+                            if (itemsList != null) {
+                                for (Map<String, Object> itemData : itemsList) {
                                     Cart.CartItems item = new Cart.CartItems();
-                                    item.setId(entry.getKey()); // ID từ key của Map
+                                    item.setId((String) itemData.get("id")); // Lấy ID từ itemData
 
-                                    // Lấy thông tin từ giá trị (Map) của item
-                                    Map<String, Object> itemData = entry.getValue();
-                                    if (itemData != null) {
-                                        item.setName((String) itemData.get("name"));
-                                        item.setDescription((String) itemData.get("description"));
-                                        item.setImage((String) itemData.get("image"));
-                                        item.setPrice((Double) itemData.get("price"));
-                                        item.setQuantity(((Long) itemData.get("quantity")).intValue()); // Chuyển đổi Long thành int
-                                    }
+                                    // Lấy thông tin từ itemData
+                                    item.setName((String) itemData.get("name"));
+                                    item.setDescription((String) itemData.get("description"));
+                                    item.setImage((String) itemData.get("image"));
+                                    item.setPrice((Double) itemData.get("price"));
+                                    item.setQuantity(((Long) itemData.get("quantity")).intValue()); // Chuyển đổi Long thành int
 
-                                    itemsList.add(item);
+                                    cartItemsList.add(item); // Thêm item vào danh sách cartItemsList
                                 }
                             }
 
-                            order.setItems(itemsList); // Gán danh sách items vào đối tượng Orders
-                            ordersList.add(order);
+                            order.setItems(cartItemsList); // Gán danh sách items vào đối tượng Orders
+                            ordersList.add(order); // Thêm đơn hàng vào danh sách
                         }
 
                         listener.onOrderListReceived(ordersList);
@@ -173,9 +170,9 @@ public class Orders {
         order.setCustomerId(userEmail);
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        // Chuyển đổi danh sách món ăn trong đơn hàng thành một Map để lưu trữ trên Firestore
-        Map<String, Object> itemsMap = new HashMap<>();
-        for (Cart.CartItems item : order.items) { // Sử dụng getter để lấy danh sách món ăn
+        // Chuyển đổi danh sách món ăn trong đơn hàng thành một List để lưu trữ trên Firestore
+        List<Map<String, Object>> itemsList = new ArrayList<>();
+        for (Cart.CartItems item : order.items) {
             Map<String, Object> itemData = new HashMap<>();
             itemData.put("id", item.getId());
             itemData.put("name", item.getName());
@@ -183,36 +180,36 @@ public class Orders {
             itemData.put("image", item.getImage());
             itemData.put("price", item.getPrice());
             itemData.put("quantity", item.getQuantity());
-            itemsMap.put(item.getId(), itemData); // Lưu từng món ăn theo ID
+            itemsList.add(itemData);
         }
 
-        // Tính tổng giá trị đơn hàng
         double total = 0;
         for (Cart.CartItems item : order.items) {
             total += item.getPrice() * item.getQuantity();
         }
 
         order.setTotalPrice(total);
-
         // Chuẩn bị dữ liệu để lưu lên Firestore
         Map<String, Object> orderData = new HashMap<>();
-        orderData.put("customerId", order.getCustomerId());
-        orderData.put("items", itemsMap); // Lưu itemsMap
-        orderData.put("totalPrice", order.getTotalPrice());
-        orderData.put("orderTime", order.getOrderTime());
+        orderData.put("customer_id", order.getCustomerId());
+        orderData.put("name", order.getName());
+        orderData.put("address", order.getAddress());
+        orderData.put("phone", order.getPhone());
+        orderData.put("items", itemsList); // Sử dụng List thay vì Map
+        orderData.put("orderTime", order.orderTime);
         orderData.put("status", order.getStatus());
+        orderData.put("totalPrice", order.getTotalPrice());
 
         // Thêm đơn hàng vào Firestore
         db.collection("orders")
                 .add(orderData)
                 .addOnSuccessListener(documentReference -> {
-                    // Gán documentID vào trường orderId của đối tượng Orders
+                    // Gán documentID vào trường id của đối tượng Orders
                     order.setOrderId(documentReference.getId());
                     listener.onComplete(order.getOrderId());
                 })
                 .addOnFailureListener(listener::onError);
     }
-
 
     public interface OnOrderListListener {
         void onOrderListReceived(List<Orders> ordersList);

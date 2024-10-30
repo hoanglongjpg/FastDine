@@ -1,5 +1,6 @@
 package com.fastdine.utt.view;
 
+import android.content.Intent;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -32,26 +33,25 @@ public class OwnerActivity extends AppCompatActivity {
         ctrl.viewFoodList(recyclerView);
 
         // Khởi tạo và xử lý sự kiện cho BottomNavigationView
+        // Khởi tạo và xử lý sự kiện cho BottomNavigationView
         bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setOnItemSelectedListener(item -> {
-            switch (item.getItemId()) {
-                case 1000039:
-                    // Hiển thị danh sách món ăn
-                    ctrl.viewFoodList(recyclerView);
-                    return true;
-                case 1000016:
-                    // Hiển thị danh sách đơn hàng
-                    ctrl.viewOrderList(recyclerView);
-                    return true;
-                default:
-                    return false;
+            if (item.getItemId() == R.id.nav_food) {
+                // Hiển thị danh sách món ăn
+                ctrl.viewFoodList(recyclerView);
+                return true;
+            } else if (item.getItemId() == R.id.nav_orders) {
+                // Hiển thị danh sách đơn hàng
+                ctrl.viewOrderList(recyclerView);
+                return true;
             }
+            return false;
         });
 
 
         // Xử lý sự kiện khi nhấn nút "Thêm"
         FloatingActionButton fabAddFood = findViewById(R.id.add_food);
         fabAddFood.setOnClickListener(v -> ctrl.addFood(recyclerView, this));
-    }
 
+    }
 }
