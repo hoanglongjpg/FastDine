@@ -71,13 +71,13 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
         holder.orderTimeTextView.setText("Thời gian đặt hàng: " + formattedTime);
 
         // Kiểm tra trạng thái của đơn hàng
-        if ("Đã huỷ".equals(order.getStatus())) {
+        if ("Đã huỷ".equals(order.getStatus()) || "Đã giao".equals(order.getStatus())) {
             // Nếu trạng thái là "Đã huỷ", đặt màu xám và vô hiệu hoá các nút
             holder.cancelButton.setEnabled(false);
             holder.acceptOrderButton.setEnabled(false);
 
         } else {
-            // Nếu trạng thái không phải "Đã huỷ", đặt màu bình thường và cho phép các nút hoạt động
+            // Nếu trạng thái không phải "Đã huỷ"
             holder.cancelButton.setEnabled(true);
             holder.acceptOrderButton.setEnabled(true);
         }
@@ -106,7 +106,6 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
             }
         });
     }
-
 
     @Override
     public int getItemCount() {
