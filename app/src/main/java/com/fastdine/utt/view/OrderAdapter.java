@@ -75,6 +75,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
         String formattedTime = dateFormat.format(order.getOrderTime());
         holder.orderTimeTextView.setText("Thời gian đặt hàng: " + formattedTime);
         holder.acceptOrderButton.setText(order.getStatus());
+        holder.orderStatusButton.setText(order.getStatus());
 
         // Thêm listener cho nút acceptOrderButton
         holder.acceptOrderButton.setOnClickListener(v -> {
