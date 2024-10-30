@@ -23,18 +23,21 @@ import java.util.List;
 import java.util.Locale;
 
 public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHolder> {
+    private RecyclerView recyclerView;
     private List<Orders> orderList;
     private OwnerController ownerController;
     private CustomerController customerController;
 
-    public OrderAdapter(List<Orders> orderList, OwnerController ownerController) {
+    public OrderAdapter(List<Orders> orderList, OwnerController ownerController, RecyclerView recyclerView ) {
         this.orderList = orderList;
         this.ownerController = ownerController;
+        this.recyclerView = recyclerView;
     }
 
     public OrderAdapter(List<Orders> orderList, CustomerController customerController) {
         this.orderList = orderList;
         this.customerController= customerController;
+
     }
 
     @NonNull
@@ -71,6 +74,15 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
         SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm, dd/MM/yyyy", Locale.getDefault());
         String formattedTime = dateFormat.format(order.getOrderTime());
         holder.orderTimeTextView.setText("Thời gian đặt hàng: " + formattedTime);
+        holder.acceptOrderButton.setText(order.getStatus());
+
+        // Thêm listener cho nút acceptOrderButton
+        holder.acceptOrderButton.setOnClickListener(v -> {
+            // Gọi phương thức updateStatus từ OwnerController
+            if (ownerController != null) {
+                ownerController.updateStatus(order.getOrderId(), recyclerView);
+            }
+        });
     }
 
     @Override
