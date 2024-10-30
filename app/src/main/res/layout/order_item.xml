@@ -60,16 +60,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:gravity="center"
+        android:gravity="end"
         android:visibility="gone"
         android:paddingTop="8dp"> <!-- Mặc định ẩn -->
 
-        <ImageButton
+        <Button
             android:id="@+id/orderStatusButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Đang xử lý"
-            android:enabled="false" />
+            android:padding="8dp" />
     </LinearLayout>
 
     <!-- Bộ phận chứa các nút cho chủ cửa hàng -->
@@ -78,18 +78,18 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:gravity="center"
+        android:gravity="end"
         android:paddingTop="8dp"
         android:visibility="gone"> <!-- Mặc định ẩn -->
 
-        <ImageButton
+        <Button
             android:id="@+id/cancelButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Huỷ"
             android:drawableLeft="@drawable/ic_cancel" />
 
-        <ImageButton
+        <Button
             android:id="@+id/acceptOrderButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
