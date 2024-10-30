@@ -241,4 +241,21 @@ public class OwnerController {
                 .show();
     }
 
+    public void cancelOrder(String orderId, RecyclerView recyclerView) {
+        // Gọi phương thức updateStatus để cập nhật trạng thái đơn hàng thành "Đã huỷ"
+        Orders.updateStatus(orderId, "Đã huỷ", new Orders.OnOrderListener() {
+            @Override
+            public void onComplete(String orderId) {
+                Toast.makeText(context, "Đơn hàng đã được huỷ", Toast.LENGTH_SHORT).show();
+                viewOrderList(recyclerView); // Cập nhật danh sách đơn hàng
+            }
+
+            @Override
+            public void onError(Exception e) {
+                Toast.makeText(context, "Lỗi khi huỷ đơn hàng: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+
 }

@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -77,6 +78,21 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
         holder.acceptOrderButton.setText(order.getStatus());
         holder.orderStatusButton.setText(order.getStatus());
 
+        //Nút huỷ đơn
+        holder.cancelButton.setOnClickListener(v -> {
+            // Hiển thị dialog xác nhận hủy
+            new AlertDialog.Builder(holder.itemView.getContext())
+                    .setTitle("Xác nhận hủy")
+                    .setMessage("Bạn có chắc chắn muốn hủy đơn hàng này?")
+                    .setPositiveButton("Có", (dialog, which) -> {
+                        // Gọi cancelOrder nếu người dùng chọn "Có"
+                        if (ownerController != null) {
+                            ownerController.cancelOrder(order.getOrderId(), recyclerView);
+                        }
+                    })
+                    .setNegativeButton("Không", null) // Nút hủy
+                    .show();
+        });
         // Thêm listener cho nút acceptOrderButton
         holder.acceptOrderButton.setOnClickListener(v -> {
             // Gọi phương thức updateStatus từ OwnerController

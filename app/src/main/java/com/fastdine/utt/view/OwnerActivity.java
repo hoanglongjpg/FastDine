@@ -48,7 +48,6 @@ public class OwnerActivity extends AppCompatActivity {
             return false;
         });
 
-
         // Xử lý sự kiện khi nhấn nút "Thêm"
         FloatingActionButton fabAddFood = findViewById(R.id.add_food);
         fabAddFood.setOnClickListener(v -> ctrl.addFood(recyclerView, this));
