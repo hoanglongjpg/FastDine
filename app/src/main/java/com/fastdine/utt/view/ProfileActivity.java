@@ -35,6 +35,7 @@ public class ProfileActivity extends AppCompatActivity {
         logoutButton.setOnClickListener(v -> {
             FirebaseAuth.getInstance().signOut(); // Đăng xuất khỏi Firebase
             Intent intent = new Intent(ProfileActivity.this, LoginActivity.class); // Tạo Intent chuyển đến LoginActivity
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent); // Bắt đầu LoginActivity
             finish(); // Kết thúc ProfileActivity
         });

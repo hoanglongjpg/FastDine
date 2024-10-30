@@ -2,6 +2,7 @@ package com.fastdine.utt.view;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Button; // Thêm import cho Button
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -33,7 +34,6 @@ public class OwnerActivity extends AppCompatActivity {
         ctrl.viewFoodList(recyclerView);
 
         // Khởi tạo và xử lý sự kiện cho BottomNavigationView
-        // Khởi tạo và xử lý sự kiện cho BottomNavigationView
         bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setOnItemSelectedListener(item -> {
             if (item.getItemId() == R.id.nav_food) {
@@ -52,5 +52,15 @@ public class OwnerActivity extends AppCompatActivity {
         FloatingActionButton fabAddFood = findViewById(R.id.add_food);
         fabAddFood.setOnClickListener(v -> ctrl.addFood(recyclerView, this));
 
+        // Khởi tạo nút đăng xuất
+        FloatingActionButton logoutButton = findViewById(R.id.logout_button);
+        logoutButton.setOnClickListener(v -> {
+            // Xóa thông tin đăng nhập hoặc thực hiện các hành động cần thiết
+            // Ví dụ: Chuyển đến LoginActivity
+            Intent intent = new Intent(OwnerActivity.this, LoginActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+            finish(); // Kết thúc OwnerActivity
+        });
     }
 }
