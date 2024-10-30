@@ -20,6 +20,7 @@ import com.fastdine.utt.model.Orders;
 import com.fastdine.utt.view.CartActivity;
 import com.fastdine.utt.view.CartAdapter;
 import com.fastdine.utt.view.FoodAdapter;
+import com.fastdine.utt.view.OrderAdapter;
 import com.google.firebase.Timestamp;
 
 import java.util.Date;
@@ -240,5 +241,31 @@ public class CustomerController {
 
         // Hiển thị Dialog
         dialog.show();
+    }
+
+    // Hàm để hiển thị danh sách đơn hàng
+    public void viewOrderList(RecyclerView recyclerView) {
+        Orders.getOrderList(new Orders.OnOrderListListener() {
+            @Override
+            public void onOrderListReceived(List<Orders> ordersList) {
+                // Tạo adapter với dữ liệu đơn hàng
+                OrderAdapter orderAdapter = new OrderAdapter(ordersList, CustomerController.this);
+
+                // Cài đặt LayoutManager cho RecyclerView
+                recyclerView.setLayoutManager(new LinearLayoutManager(context));
+
+                // Cài đặt adapter cho RecyclerView
+                recyclerView.setAdapter(orderAdapter);
+
+                // Thông báo thành công
+                Toast.makeText(context, "Danh sách đơn hàng đã được cập nhật", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onError(Exception e) {
+                // Xử lý khi có lỗi xảy ra
+                Toast.makeText(context, "Lỗi khi lấy danh sách đơn hàng: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }
