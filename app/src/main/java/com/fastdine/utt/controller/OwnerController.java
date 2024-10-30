@@ -214,28 +214,51 @@ public class OwnerController {
         // Tạo một mảng chứa các trạng thái
         String[] statuses = {"Đã nhận", "Đang chuẩn bị", "Đã giao"};
 
-        // Tạo AlertDialog Builder
+        // Tạo AlertDialog Builder cho việc chọn trạng thái
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle("Chọn trạng thái đơn hàng")
                 .setItems(statuses, (dialog, which) -> {
                     // Khi người dùng chọn một trạng thái
                     String selectedStatus = statuses[which];
 
-                    // Gọi hàm updateStatus trong model
-                    Orders.updateStatus(orderId, selectedStatus, new Orders.OnOrderListener() {
-                        @Override
-                        public void onComplete(String orderId) {
-                            // Cập nhật thành công
-                            Toast.makeText(context, "Trạng thái đơn hàng đã được cập nhật: " + selectedStatus, Toast.LENGTH_SHORT).show();
-                            viewOrderList(recyclerView); // Cập nhật danh sách đơn hàng
-                        }
+                    // Kiểm tra nếu trạng thái được chọn là "Đã giao"
+                    if ("Đã giao".equals(selectedStatus)) {
+                        // Hiển thị thêm dialog xác nhận
+                        new AlertDialog.Builder(context)
+                                .setTitle("Xác nhận đã giao")
+                                .setMessage("Bạn có chắc chắn muốn cập nhật trạng thái đơn hàng này là 'Đã giao'?")
+                                .setPositiveButton("Có", (confirmDialog, confirmWhich) -> {
+                                    // Gọi hàm updateStatus trong model khi người dùng xác nhận
+                                    Orders.updateStatus(orderId, selectedStatus, new Orders.OnOrderListener() {
+                                        @Override
+                                        public void onComplete(String orderId) {
+                                            Toast.makeText(context, "Trạng thái đơn hàng đã được cập nhật: " + selectedStatus, Toast.LENGTH_SHORT).show();
+                                            viewOrderList(recyclerView); // Cập nhật danh sách đơn hàng
+                                        }
 
-                        @Override
-                        public void onError(Exception e) {
-                            // Xử lý lỗi
-                            Toast.makeText(context, "Cập nhật thất bại: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    });
+                                        @Override
+                                        public void onError(Exception e) {
+                                            Toast.makeText(context, "Cập nhật thất bại: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
+                                })
+                                .setNegativeButton("Không", (confirmDialog, confirmWhich) -> confirmDialog.dismiss())
+                                .show();
+                    } else {
+                        // Gọi hàm updateStatus trong model nếu không cần xác nhận thêm
+                        Orders.updateStatus(orderId, selectedStatus, new Orders.OnOrderListener() {
+                            @Override
+                            public void onComplete(String orderId) {
+                                Toast.makeText(context, "Trạng thái đơn hàng đã được cập nhật: " + selectedStatus, Toast.LENGTH_SHORT).show();
+                                viewOrderList(recyclerView); // Cập nhật danh sách đơn hàng
+                            }
+
+                            @Override
+                            public void onError(Exception e) {
+                                Toast.makeText(context, "Cập nhật thất bại: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
                 })
                 .setNegativeButton("Hủy", (dialog, which) -> dialog.dismiss())
                 .show();
