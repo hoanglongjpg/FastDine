@@ -12,9 +12,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.fastdine.utt.R;
 import com.fastdine.utt.controller.CustomerController;
-import com.fastdine.utt.model.Cart;
+
 import java.text.DecimalFormat;
-import java.util.List;
 
 public class CartActivity extends AppCompatActivity {
     private CustomerController ctrl;
@@ -37,6 +36,10 @@ public class CartActivity extends AppCompatActivity {
         // Set click listener for the clear cart button
         findViewById(R.id.clearCartButton).setOnClickListener(v -> showDeleteConfirmationDialog());
 
+        //Sự kiện nút "Giao hàng"
+        // Trong CartActivity.java
+        Button orderButton = findViewById(R.id.orderButton);
+        orderButton.setOnClickListener(v -> ctrl.showOrderDialog(this));
     }
 
     public void updateTotalPrice(double total) {
@@ -51,7 +54,7 @@ public class CartActivity extends AppCompatActivity {
 
     private void showDeleteConfirmationDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        View dialogView = LayoutInflater.from(this).inflate(R.layout.deletecart_cf, null);
+        View dialogView = LayoutInflater.from(this).inflate(R.layout.delete_cart_cf, null);
         builder.setView(dialogView);
         AlertDialog dialog = builder.create();
 

@@ -1,5 +1,7 @@
 package com.fastdine.utt.model;
 
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -21,11 +23,20 @@ public class Customer {
     private String phone;
     private String address;
 
+
     public Customer() {
     }
 
     // Constructor
     public Customer(String customerId, String email, String name, String phone, String address) {
+        this.customerId = "customer_" + customerId;
+        this.email = email;
+        this.name = name;
+        this.phone = phone;
+        this.address = address;
+    }
+
+    public Customer(String name, String address, String phone) {
         this.customerId = "customer_" + customerId;
         this.email = email;
         this.name = name;
@@ -108,5 +119,10 @@ public class Customer {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         DocumentReference docRef = db.collection("customers").document(customerId);
         docRef.get().addOnSuccessListener(listener);
+    }
+
+    public interface OnCustomerInfoListener {
+        void onInfoLoaded(Customer customer);
+        void onError(Exception e);
     }
 }
