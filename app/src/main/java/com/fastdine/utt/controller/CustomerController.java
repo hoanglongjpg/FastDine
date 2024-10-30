@@ -244,11 +244,27 @@ public class CustomerController {
         EditText editTextName = dialog.findViewById(R.id.editTextName);
         EditText editTextAddress = dialog.findViewById(R.id.editTextAddress);
         EditText editTextPhone = dialog.findViewById(R.id.editTextPhone);
+        EditText editTextEmail = dialog.findViewById(R.id.editTextEmail);
         Button buttonCancel = dialog.findViewById(R.id.buttonCancel);
         Button buttonPlaceOrder = dialog.findViewById(R.id.buttonConfirm);
 
         // Xử lý sự kiện nút "Hủy"
         buttonCancel.setOnClickListener(v -> dialog.dismiss());
+
+        Customer.getCustomerInfo(new Customer.OnCustomerInfoListener() {
+            @Override
+            public void onComplete(Customer customer) {
+                editTextName.setText(customer.getName());
+                editTextAddress.setText(customer.getAddress());
+                editTextPhone.setText(customer.getPhone());
+                editTextEmail.setText(customer.getEmail());
+            }
+
+            @Override
+            public void onError(Exception e) {
+
+            }
+        });
 
         // Xử lý sự kiện nút "Đặt hàng"
         buttonPlaceOrder.setOnClickListener(v -> {
