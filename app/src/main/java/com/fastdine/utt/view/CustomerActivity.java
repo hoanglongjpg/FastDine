@@ -2,7 +2,9 @@ package com.fastdine.utt.view;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -12,6 +14,7 @@ import com.fastdine.utt.R;
 import com.fastdine.utt.controller.CustomerController;
 import com.fastdine.utt.controller.OwnerController;
 import com.fastdine.utt.model.Food;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
@@ -26,12 +29,26 @@ public class CustomerActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_customer);
+
         ctrl = new CustomerController(this);
 
         // Khởi tạo RecyclerView và adapter
         recyclerView = findViewById(R.id.recyclerView_food_list);
         ctrl.viewAvailableFood(recyclerView);
         ctrl.getCart();
+
+        // Khởi tạo BottomNavigationView
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
+        bottomNavigationView.setOnItemSelectedListener(item -> {
+            if (item.getItemId() == R.id.nav_more) {
+                // Mở ProfileActivity khi nhấn vào nav_more
+                Intent intent = new Intent(CustomerActivity.this, ProfileActivity.class);
+                startActivity(intent);
+                return true;
+            }
+            return false;
+        });
+
 
         // Tìm ImageButton giỏ hàng và thiết lập sự kiện click
         ImageButton cartButton = findViewById(R.id.cartButton);
