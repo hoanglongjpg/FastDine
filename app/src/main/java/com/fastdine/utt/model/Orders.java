@@ -3,6 +3,7 @@ package com.fastdine.utt.model;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -124,6 +125,7 @@ public class Orders {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
         db.collection("orders")
+                .orderBy("orderTime", Query.Direction.DESCENDING)
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
@@ -169,9 +171,10 @@ public class Orders {
     public static void getOrderListCustomer(String customerId, OnOrderListListener listener) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        // Lọc đơn hàng theo customer_id
+        // Lọc đơn hàng theo customer_id và sắp xếp theo orderTime
         db.collection("orders")
                 .whereEqualTo("customer_id", customerId) // Lọc theo customer_id
+                .orderBy("orderTime", Query.Direction.DESCENDING) // Sắp xếp theo orderTime từ mới nhất đến cũ nhất
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
@@ -213,6 +216,7 @@ public class Orders {
                     }
                 });
     }
+
 
     public static void addOrder(Orders order, OnOrderListener listener) {
         // Lấy email của khách hàng
