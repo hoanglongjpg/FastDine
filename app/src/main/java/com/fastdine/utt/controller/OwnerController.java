@@ -190,7 +190,7 @@ public class OwnerController {
             @Override
             public void onOrderListReceived(List<Orders> ordersList) {
                 // Tạo adapter với dữ liệu đơn hàng
-                OrderAdapter orderAdapter = new OrderAdapter(ordersList, OwnerController.this);
+                OrderAdapter orderAdapter = new OrderAdapter(ordersList, OwnerController.this, recyclerView);
 
                 // Cài đặt LayoutManager cho RecyclerView
                 recyclerView.setLayoutManager(new LinearLayoutManager(context));
@@ -208,6 +208,37 @@ public class OwnerController {
                 Toast.makeText(context, "Lỗi khi lấy danh sách đơn hàng: " + e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    public void updateStatus(String orderId, RecyclerView recyclerView) {
+        // Tạo một mảng chứa các trạng thái
+        String[] statuses = {"Đã nhận", "Đang chuẩn bị", "Đã giao"};
+
+        // Tạo AlertDialog Builder
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("Chọn trạng thái đơn hàng")
+                .setItems(statuses, (dialog, which) -> {
+                    // Khi người dùng chọn một trạng thái
+                    String selectedStatus = statuses[which];
+
+                    // Gọi hàm updateStatus trong model
+                    Orders.updateStatus(orderId, selectedStatus, new Orders.OnOrderListener() {
+                        @Override
+                        public void onComplete(String orderId) {
+                            // Cập nhật thành công
+                            Toast.makeText(context, "Trạng thái đơn hàng đã được cập nhật: " + selectedStatus, Toast.LENGTH_SHORT).show();
+                            viewOrderList(recyclerView); // Cập nhật danh sách đơn hàng
+                        }
+
+                        @Override
+                        public void onError(Exception e) {
+                            // Xử lý lỗi
+                            Toast.makeText(context, "Cập nhật thất bại: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                })
+                .setNegativeButton("Hủy", (dialog, which) -> dialog.dismiss())
+                .show();
     }
 
 }

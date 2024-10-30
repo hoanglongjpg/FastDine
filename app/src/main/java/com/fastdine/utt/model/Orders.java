@@ -163,8 +163,6 @@ public class Orders {
                 });
     }
 
-
-
     public static void addOrder(Orders order, OnOrderListener listener) {
         String userEmail = FirebaseAuth.getInstance().getCurrentUser().getEmail();
         order.setCustomerId(userEmail);
@@ -207,6 +205,20 @@ public class Orders {
                     // Gán documentID vào trường id của đối tượng Orders
                     order.setOrderId(documentReference.getId());
                     listener.onComplete(order.getOrderId());
+                })
+                .addOnFailureListener(listener::onError);
+    }
+
+    public static void updateStatus(String orderId, String newStatus, OnOrderListener listener) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        // Cập nhật trạng thái đơn hàng trong Firestore
+        db.collection("orders")
+                .document(orderId)
+                .update("status", newStatus)
+                .addOnSuccessListener(aVoid -> {
+                    // Cập nhật thành công
+                    listener.onComplete(orderId);
                 })
                 .addOnFailureListener(listener::onError);
     }
