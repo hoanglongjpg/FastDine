@@ -62,45 +62,48 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
     public void onBindViewHolder(@NonNull OrderViewHolder holder, int position) {
         Orders order = orderList.get(position);
 
-        // Hiển thị mã đơn hàng
+        // Hiển thị thông tin đơn hàng
         holder.orderIdTextView.setText("Đơn hàng #" + order.getOrderId());
-
-        // Hiển thị tổng số món
         holder.foodQuantityTextView.setText("Tổng số món: " + order.getTotalQuantity() + " món");
-
-        // Hiển thị tổng tiền
         holder.totalPriceTextView.setText("Tổng tiền: " + order.getTotalPrice() + "đ");
 
-        // Hiển thị thời gian đặt hàng
         SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm, dd/MM/yyyy", Locale.getDefault());
         String formattedTime = dateFormat.format(order.getOrderTime());
         holder.orderTimeTextView.setText("Thời gian đặt hàng: " + formattedTime);
-        holder.acceptOrderButton.setText(order.getStatus());
-        holder.orderStatusButton.setText(order.getStatus());
 
-        //Nút huỷ đơn
-        holder.cancelButton.setOnClickListener(v -> {
-            // Hiển thị dialog xác nhận hủy
-            new AlertDialog.Builder(holder.itemView.getContext())
-                    .setTitle("Xác nhận hủy")
-                    .setMessage("Bạn có chắc chắn muốn hủy đơn hàng này?")
-                    .setPositiveButton("Có", (dialog, which) -> {
-                        // Gọi cancelOrder nếu người dùng chọn "Có"
-                        if (ownerController != null) {
-                            ownerController.cancelOrder(order.getOrderId(), recyclerView);
-                        }
-                    })
-                    .setNegativeButton("Không", null) // Nút hủy
-                    .show();
-        });
-        // Thêm listener cho nút acceptOrderButton
-        holder.acceptOrderButton.setOnClickListener(v -> {
-            // Gọi phương thức updateStatus từ OwnerController
-            if (ownerController != null) {
-                ownerController.updateStatus(order.getOrderId(), recyclerView);
-            }
-        });
+        // Mặc định bật các nút
+        holder.cancelButton.setVisibility(View.VISIBLE);
+        holder.acceptOrderButton.setVisibility(View.VISIBLE);
+
+        // Kiểm tra trạng thái của đơn hàng
+        if ("Đã huỷ".equals(order.getStatus())) {
+            // Ẩn nút "Hủy" và "Thay đổi trạng thái" nếu đơn hàng đã bị hủy
+            holder.cancelButton.setVisibility(View.GONE);
+            holder.acceptOrderButton.setVisibility(View.GONE);
+        } else {
+            // Hiển thị nút "Hủy" với dialog xác nhận
+            holder.cancelButton.setOnClickListener(v -> {
+                new AlertDialog.Builder(holder.itemView.getContext())
+                        .setTitle("Xác nhận hủy")
+                        .setMessage("Bạn có chắc chắn muốn hủy đơn hàng này?")
+                        .setPositiveButton("Có", (dialog, which) -> {
+                            if (ownerController != null) {
+                                ownerController.cancelOrder(order.getOrderId(), recyclerView);
+                            }
+                        })
+                        .setNegativeButton("Không", null)
+                        .show();
+            });
+
+            // Xử lý sự kiện cho nút "Thay đổi trạng thái"
+            holder.acceptOrderButton.setOnClickListener(v -> {
+                if (ownerController != null) {
+                    ownerController.updateStatus(order.getOrderId(), recyclerView);
+                }
+            });
+        }
     }
+
 
     @Override
     public int getItemCount() {
