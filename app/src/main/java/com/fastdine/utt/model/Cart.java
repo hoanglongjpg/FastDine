@@ -15,6 +15,10 @@ public class Cart {
     public static class CartItems extends Food{
         private int quantity;
 
+        public CartItems() {
+
+        }
+
         public int getQuantity() {
             return quantity;
         }

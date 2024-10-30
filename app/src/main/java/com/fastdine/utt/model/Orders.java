@@ -1,17 +1,223 @@
 package com.fastdine.utt.model;
 
+import com.google.firebase.Timestamp;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Orders {
-    private String order_id;
-    private List<OrderItems> items;
+    private String orderId;
+    private String customerId;
+    private List<Cart.CartItems> items;
+    private String name;
+    private String address;
+    private Date orderTime;
+    private String phone;
     private String status;
-    private Double totalPrice;
+    private double totalPrice;
+    
 
-    public static class OrderItems{
-        private String foodId;
-        private String name;
-        private int quantity;
-        private double price;
+    public Orders(String name, String address, String phone, List<Cart.CartItems> items, Date orderTime, String status) {
+        this.name = name;
+        this.address = address;
+        this.phone = phone;
+        this.items = items;
+        this.orderTime = orderTime;
+        this.status = status;
+    }
+
+    public Orders(){}
+
+    // Getters and Setters
+    private void setItems(List<Cart.CartItems> itemsList) {
+        this.items = itemsList;
+    }
+    public String getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(String orderId) {
+        this.orderId = orderId;
+    }
+
+    public String getCustomerId() {
+        return customerId;
+    }
+
+    public void setCustomerId(String customerId) {
+        this.customerId = customerId;
+    }
+
+    public Map<String, Object> getItems() {
+        return (Map<String, Object>) items;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public Date getOrderTime() {
+        return orderTime;
+    }
+
+    public void setOrderTime(Date orderTime) {
+        this.orderTime = orderTime;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public double getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(double totalPrice) {
+        this.totalPrice = totalPrice;
+    }
+
+    public int getTotalQuantity() {
+        int totalQuantity = 0; // Initialize total quantity
+        if (items != null) { // Ensure items list is not null
+            for (Cart.CartItems item : items) {
+                totalQuantity += item.getQuantity(); // Sum up quantities
+            }
+        }
+        return totalQuantity; // Return the total quantity
+    }
+
+    public static void getOrderList(OnOrderListListener listener) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        db.collection("orders")
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        List<Orders> ordersList = new ArrayList<>();
+                        QuerySnapshot querySnapshot = task.getResult();
+
+                        for (QueryDocumentSnapshot document : querySnapshot) {
+                            // Chuyển đổi tài liệu thành đối tượng Orders
+                            Orders order = document.toObject(Orders.class);
+                            order.setOrderId(document.getId());
+
+                            // Khôi phục items từ List
+                            List<Map<String, Object>> itemsList = (List<Map<String, Object>>) document.get("items");
+                            List<Cart.CartItems> cartItemsList = new ArrayList<>();
+
+                            if (itemsList != null) {
+                                for (Map<String, Object> itemData : itemsList) {
+                                    Cart.CartItems item = new Cart.CartItems();
+                                    item.setId((String) itemData.get("id")); // Lấy ID từ itemData
+
+                                    // Lấy thông tin từ itemData
+                                    item.setName((String) itemData.get("name"));
+                                    item.setDescription((String) itemData.get("description"));
+                                    item.setImage((String) itemData.get("image"));
+                                    item.setPrice((Double) itemData.get("price"));
+                                    item.setQuantity(((Long) itemData.get("quantity")).intValue()); // Chuyển đổi Long thành int
+
+                                    cartItemsList.add(item); // Thêm item vào danh sách cartItemsList
+                                }
+                            }
+
+                            order.setItems(cartItemsList); // Gán danh sách items vào đối tượng Orders
+                            ordersList.add(order); // Thêm đơn hàng vào danh sách
+                        }
+
+                        listener.onOrderListReceived(ordersList);
+                    } else {
+                        listener.onError(task.getException());
+                    }
+                });
+    }
+
+
+
+    public static void addOrder(Orders order, OnOrderListener listener) {
+        String userEmail = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+        order.setCustomerId(userEmail);
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        // Chuyển đổi danh sách món ăn trong đơn hàng thành một List để lưu trữ trên Firestore
+        List<Map<String, Object>> itemsList = new ArrayList<>();
+        for (Cart.CartItems item : order.items) {
+            Map<String, Object> itemData = new HashMap<>();
+            itemData.put("id", item.getId());
+            itemData.put("name", item.getName());
+            itemData.put("description", item.getDescription());
+            itemData.put("image", item.getImage());
+            itemData.put("price", item.getPrice());
+            itemData.put("quantity", item.getQuantity());
+            itemsList.add(itemData);
+        }
+
+        double total = 0;
+        for (Cart.CartItems item : order.items) {
+            total += item.getPrice() * item.getQuantity();
+        }
+
+        order.setTotalPrice(total);
+        // Chuẩn bị dữ liệu để lưu lên Firestore
+        Map<String, Object> orderData = new HashMap<>();
+        orderData.put("customer_id", order.getCustomerId());
+        orderData.put("name", order.getName());
+        orderData.put("address", order.getAddress());
+        orderData.put("phone", order.getPhone());
+        orderData.put("items", itemsList); // Sử dụng List thay vì Map
+        orderData.put("orderTime", order.orderTime);
+        orderData.put("status", order.getStatus());
+        orderData.put("totalPrice", order.getTotalPrice());
+
+        // Thêm đơn hàng vào Firestore
+        db.collection("orders")
+                .add(orderData)
+                .addOnSuccessListener(documentReference -> {
+                    // Gán documentID vào trường id của đối tượng Orders
+                    order.setOrderId(documentReference.getId());
+                    listener.onComplete(order.getOrderId());
+                })
+                .addOnFailureListener(listener::onError);
+    }
+
+    public interface OnOrderListListener {
+        void onOrderListReceived(List<Orders> ordersList);
+        void onError(Exception e);
+    }
+
+    public interface OnOrderListener {
+        void onComplete(String id);
+        void onError(Exception e);
     }
 }

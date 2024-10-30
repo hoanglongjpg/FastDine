@@ -1,7 +1,10 @@
 package com.fastdine.utt.model;
 
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -9,17 +12,19 @@ import com.google.firebase.firestore.SetOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.OnFailureListener;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 public class Customer {
     private String customerId;
     private String email;
     private String name;
     private String phone;
     private String address;
-    private FirebaseFirestore db;
+
 
     public Customer() {
-        // Khởi tạo Firebase Firestore
-        db = FirebaseFirestore.getInstance();
     }
 
     // Constructor
@@ -29,7 +34,14 @@ public class Customer {
         this.name = name;
         this.phone = phone;
         this.address = address;
-        db = FirebaseFirestore.getInstance();
+    }
+
+    public Customer(String address, String email, String name, String phone) {
+        this.customerId = "customer_" + customerId;
+        this.email = email;
+        this.name = name;
+        this.phone = phone;
+        this.address = address;
     }
 
     // Getters and Setters
@@ -73,27 +85,59 @@ public class Customer {
         this.address = address;
     }
 
-    // Hàm lưu thông tin khách hàng vào Firestore
-    public void saveCustomer() {
-        db.collection("customers").document(customerId)
-            .set(this, SetOptions.merge())
-            .addOnSuccessListener(new OnSuccessListener<Void>() {
-                @Override
-                public void onSuccess(Void aVoid) {
-                    // Lưu thành công
-                }
-            })
-            .addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    // Lưu thất bại
-                }
-            });
+    public interface OnCustomerListener {
+        void onComplete();
+
+        void onError(Exception e);
     }
 
-    // Hàm lấy thông tin khách hàng từ Firestore
-    public void getCustomerInfo(String customerId, OnSuccessListener<DocumentSnapshot> listener) {
-        DocumentReference docRef = db.collection("customers").document(customerId);
-        docRef.get().addOnSuccessListener(listener);
+    // Hàm lưu thông tin khách hàng vào Firestore
+    public static void saveCustomer(final Customer.OnCustomerListener listener) {
+        String email = FirebaseAuth.getInstance().getCurrentUser().getEmail(); // Lấy email người dùng hiện tại
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        Map<String, Object> customerData = new HashMap<>();
+        customerData.put("name", "");      // Trường name để trống
+        customerData.put("email", email);  // Lưu email người dùng
+        customerData.put("address", "");   // Trường address để trống
+        customerData.put("phone", "");     // Trường phone để trống
+
+        db.collection("customers").document(email)
+                .set(customerData, SetOptions.merge())
+                .addOnSuccessListener(aVoid -> {
+                    listener.onComplete();
+                        // Lưu thành công
+                })
+                .addOnFailureListener(e -> {
+                    listener.onError(e);
+                        // Lưu thất bại
+                });
+    }
+
+    public static void getCustomerInfo(OnCustomerInfoListener listener) {
+        String userEmail = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        DocumentReference customerRef = db.collection("customers").document(userEmail);
+
+        customerRef.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful() && task.getResult() != null && task.getResult().exists()) {
+                DocumentSnapshot document = task.getResult();
+                Customer customer = new Customer();
+                customer.setName(document.getString("name"));
+                customer.setPhone(document.getString("phone"));
+                customer.setEmail(document.getString("email"));
+                customer.setAddress(document.getString("address"));
+                listener.onComplete(customer);
+            } else {
+                listener.onError(task.getException());
+            }
+        });
+    }
+
+    // Giao diện để nhận thông tin khách hàng
+    public interface OnCustomerInfoListener {
+        void onComplete(Customer customer);
+        void onError(Exception e);
     }
 }
