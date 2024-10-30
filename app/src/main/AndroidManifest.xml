@@ -40,6 +40,7 @@
         <activity android:name=".view.OwnerActivity" />
         <activity android:name=".view.CartActivity" />
         <!-- Có thể khai báo thêm các activity khác nếu cần -->
+        <activity android:name=".view.ProfileActivity"/>
     </application>
 
 </manifest>

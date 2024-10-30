@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="8dp"
+    >
+
+    <!-- TextView hiển thị mã đơn hàng -->
+    <TextView
+        android:id="@+id/orderIdTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Đơn hàng #23102024-222033"
+        android:textStyle="bold"
+        android:textSize="16sp"
+        android:paddingBottom="4dp" />
+
+    <!-- Phần chứa thông tin món ăn và số lượng -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingVertical="8dp">
+
+        <!-- Phần chứa tổng tiền và số lượng -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/foodQuantityTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2 món"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/totalPriceTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tổng tiền: 40.000đ"
+                android:textSize="14sp" /> <!-- Changed to total price -->
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- Thời gian đặt hàng -->
+    <TextView
+        android:id="@+id/orderTimeTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Thời gian đặt hàng: 14:30, 30/10/2024"
+        android:textSize="14sp"
+        android:paddingTop="4dp" />
+
+    <!-- Bộ phận chứa các nút cho khách hàng -->
+    <LinearLayout
+        android:id="@+id/customerActions"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="end"
+        android:visibility="gone"
+        android:paddingTop="8dp"> <!-- Mặc định ẩn -->
+
+        <Button
+            android:id="@+id/orderStatusButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Đang xử lý"
+            android:padding="8dp" />
+    </LinearLayout>
+
+    <!-- Bộ phận chứa các nút cho chủ cửa hàng -->
+    <LinearLayout
+        android:id="@+id/ownerActions"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="end"
+        android:paddingTop="8dp"
+        android:visibility="gone"> <!-- Mặc định ẩn -->
+
+        <Button
+            android:id="@+id/cancelButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Huỷ"
+            android:drawableLeft="@drawable/ic_cancel" />
+
+        <Button
+            android:id="@+id/acceptOrderButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="Đã nhận đơn"
+            android:drawableLeft="@drawable/ic_edit_order" />
+    </LinearLayout>
+</LinearLayout>

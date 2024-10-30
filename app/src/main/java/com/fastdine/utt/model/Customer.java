@@ -36,7 +36,7 @@ public class Customer {
         this.address = address;
     }
 
-    public Customer(String name, String address, String phone) {
+    public Customer(String address, String email, String name, String phone) {
         this.customerId = "customer_" + customerId;
         this.email = email;
         this.name = name;
@@ -114,15 +114,30 @@ public class Customer {
                 });
     }
 
-    // Hàm lấy thông tin khách hàng từ Firestore
-    public void getCustomerInfo(String customerId, OnSuccessListener<DocumentSnapshot> listener) {
+    public static void getCustomerInfo(OnCustomerInfoListener listener) {
+        String userEmail = FirebaseAuth.getInstance().getCurrentUser().getEmail();
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        DocumentReference docRef = db.collection("customers").document(customerId);
-        docRef.get().addOnSuccessListener(listener);
+
+        DocumentReference customerRef = db.collection("customers").document(userEmail);
+
+        customerRef.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful() && task.getResult() != null && task.getResult().exists()) {
+                DocumentSnapshot document = task.getResult();
+                Customer customer = new Customer();
+                customer.setName(document.getString("name"));
+                customer.setPhone(document.getString("phone"));
+                customer.setEmail(document.getString("email"));
+                customer.setAddress(document.getString("address"));
+                listener.onComplete(customer);
+            } else {
+                listener.onError(task.getException());
+            }
+        });
     }
 
+    // Giao diện để nhận thông tin khách hàng
     public interface OnCustomerInfoListener {
-        void onInfoLoaded(Customer customer);
+        void onComplete(Customer customer);
         void onError(Exception e);
     }
 }

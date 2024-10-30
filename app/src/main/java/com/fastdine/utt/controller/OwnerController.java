@@ -9,7 +9,9 @@ import android.widget.EditText;
 import android.widget.Toast;
 import com.fastdine.utt.R;
 import com.fastdine.utt.model.Food;
+import com.fastdine.utt.model.Orders;
 import com.fastdine.utt.view.FoodAdapter;
+import com.fastdine.utt.view.OrderAdapter;
 
 import java.security.acl.Owner;
 import java.util.List;
@@ -25,10 +27,6 @@ public class OwnerController {
         this.context = context.getApplicationContext();
     }
 
-    // Interface để callback về Activity
-    public interface AddFoodListener {
-        void onFoodAdded();
-    }
 
     // Hàm để hiển thị danh sách món ăn
     public void viewFoodList(RecyclerView recyclerView) {
@@ -184,6 +182,32 @@ public class OwnerController {
                 })
                 .setNegativeButton("Không", null) // Nút hủy
                 .show();
+    }
+
+    // Hàm để hiển thị danh sách đơn hàng
+    public void viewOrderList(RecyclerView recyclerView) {
+        Orders.getOrderList(new Orders.OnOrderListListener() {
+            @Override
+            public void onOrderListReceived(List<Orders> ordersList) {
+                // Tạo adapter với dữ liệu đơn hàng
+                OrderAdapter orderAdapter = new OrderAdapter(ordersList, OwnerController.this);
+
+                // Cài đặt LayoutManager cho RecyclerView
+                recyclerView.setLayoutManager(new LinearLayoutManager(context));
+
+                // Cài đặt adapter cho RecyclerView
+                recyclerView.setAdapter(orderAdapter);
+
+                // Thông báo thành công
+                Toast.makeText(context, "Danh sách đơn hàng đã được cập nhật", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onError(Exception e) {
+                // Xử lý khi có lỗi xảy ra
+                Toast.makeText(context, "Lỗi khi lấy danh sách đơn hàng: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
 }

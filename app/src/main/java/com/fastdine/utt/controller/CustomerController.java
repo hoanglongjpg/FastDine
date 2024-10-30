@@ -8,8 +8,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.fastdine.utt.R;
@@ -20,6 +22,7 @@ import com.fastdine.utt.model.Orders;
 import com.fastdine.utt.view.CartActivity;
 import com.fastdine.utt.view.CartAdapter;
 import com.fastdine.utt.view.FoodAdapter;
+import com.fastdine.utt.view.OrderAdapter;
 import com.google.firebase.Timestamp;
 
 import java.util.Date;
@@ -163,8 +166,31 @@ public class CustomerController {
         });
     }
 
-    public void getInfo(Customer.OnCustomerInfoListener onCustomerInfoListener){
+    public void viewCustomerInfo(TextView nameView, TextView phoneView, TextView emailView, TextView addressView) {
+        Customer.getCustomerInfo(new Customer.OnCustomerInfoListener() {
+            @Override
+            public void onComplete(Customer customer) {
+                // Kiểm tra và hiển thị thông tin lên các TextView
+                if (nameView != null) {
+                    nameView.setText(customer.getName());
+                }
+                if (phoneView != null) {
+                    phoneView.setText(customer.getPhone());
+                }
+                if (emailView != null) {
+                    emailView.setText(customer.getEmail());
+                }
+                if (addressView != null) {
+                    addressView.setText(customer.getAddress());
+                }
+            }
 
+            @Override
+            public void onError(Exception e) {
+                // Xử lý lỗi nếu có
+                Log.e("CustomerController", "Lỗi khi lấy thông tin khách hàng: " + e.getMessage());
+            }
+        });
     }
 
     public void saveInfo(){
@@ -240,5 +266,31 @@ public class CustomerController {
 
         // Hiển thị Dialog
         dialog.show();
+    }
+
+    // Hàm để hiển thị danh sách đơn hàng
+    public void viewOrderList(RecyclerView recyclerView) {
+        Orders.getOrderList(new Orders.OnOrderListListener() {
+            @Override
+            public void onOrderListReceived(List<Orders> ordersList) {
+                // Tạo adapter với dữ liệu đơn hàng
+                OrderAdapter orderAdapter = new OrderAdapter(ordersList, CustomerController.this);
+
+                // Cài đặt LayoutManager cho RecyclerView
+                recyclerView.setLayoutManager(new LinearLayoutManager(context));
+
+                // Cài đặt adapter cho RecyclerView
+                recyclerView.setAdapter(orderAdapter);
+
+                // Thông báo thành công
+                Toast.makeText(context, "Danh sách đơn hàng đã được cập nhật", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onError(Exception e) {
+                // Xử lý khi có lỗi xảy ra
+                Toast.makeText(context, "Lỗi khi lấy danh sách đơn hàng: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }
