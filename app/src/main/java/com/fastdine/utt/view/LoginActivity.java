@@ -54,11 +54,11 @@ public class LoginActivity extends AppCompatActivity {
 
         // Kiểm tra nếu email hoặc mật khẩu rỗng
         if (TextUtils.isEmpty(email)) {
-            emailEditText.setError("Email is required");
+            emailEditText.setError("Email là bắt buộc");
             return;
         }
         if (TextUtils.isEmpty(password)) {
-            passwordEditText.setError("Password is required");
+            passwordEditText.setError("Mật khẩu là bắt buộc");
             return;
         }
 
@@ -67,7 +67,7 @@ public class LoginActivity extends AppCompatActivity {
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         // Đăng nhập thành công, kiểm tra vai trò người dùng
-                        Toast.makeText(LoginActivity.this, "Login successful", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(LoginActivity.this, "Đăng nhập thành công", Toast.LENGTH_SHORT).show();
 
                         // Lấy thông tin người dùng hiện tại
                         FirebaseUser currentUser = mAuth.getCurrentUser();
@@ -90,12 +90,12 @@ public class LoginActivity extends AppCompatActivity {
                                     finish(); // Đóng LoginActivity
                                 })
                                 .addOnFailureListener(e -> {
-                                    Toast.makeText(LoginActivity.this, "Error retrieving user role.", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(LoginActivity.this, "Lỗi khi truy xuất vai trò người dùng.", Toast.LENGTH_SHORT).show();
                                     finish(); // Đóng LoginActivity
                                 });
                     } else {
                         // Hiển thị lỗi nếu đăng nhập thất bại
-                        Toast.makeText(LoginActivity.this, "Login failed: " + task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(LoginActivity.this, "Đăng nhập thất bại: " + task.getException().getMessage(), Toast.LENGTH_LONG).show();
                     }
                 });
     }

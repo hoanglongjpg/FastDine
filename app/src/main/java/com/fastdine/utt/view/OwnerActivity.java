@@ -3,6 +3,8 @@ package com.fastdine.utt.view;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button; // Thêm import cho Button
+import android.widget.ImageButton;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -50,11 +52,11 @@ public class OwnerActivity extends AppCompatActivity {
         });
 
         // Xử lý sự kiện khi nhấn nút "Thêm"
-        FloatingActionButton fabAddFood = findViewById(R.id.add_food);
+        ImageButton fabAddFood = findViewById(R.id.add_food);
         fabAddFood.setOnClickListener(v -> ctrl.addFood(recyclerView, this));
 
         // Khởi tạo nút đăng xuất
-        FloatingActionButton logoutButton = findViewById(R.id.logout_button);
+        ImageButton logoutButton = findViewById(R.id.logout_button);
         logoutButton.setOnClickListener(v -> {
             FirebaseAuth.getInstance().signOut();
             Intent intent = new Intent(OwnerActivity.this, LoginActivity.class);

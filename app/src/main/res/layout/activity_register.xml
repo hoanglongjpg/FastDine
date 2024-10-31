@@ -8,8 +8,8 @@
 
     <ImageView
         android:id="@+id/app_icon"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
         android:src="@mipmap/ic_launcher"
         android:layout_gravity="center"
         android:layout_marginBottom="16dp"/>
@@ -18,7 +18,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Đăng ký"
-        android:textSize="34sp"
+        android:textSize="28sp"
         android:layout_gravity="center"/>
     <!-- Trường nhập email -->
     <EditText

@@ -17,37 +17,36 @@
         <!-- TextView chào mừng -->
         <TextView
             android:id="@+id/textView"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Chào mừng chủ cửa hàng!"
-            android:textSize="20sp"
-            android:paddingStart="16dp"
-            android:paddingBottom="8dp" />
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/logout_button"
-            android:elevation="0dp"
-            android:translationZ="0dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:paddingStart="16dp"
+            android:paddingBottom="8dp"
+            android:text="Chào mừng chủ cửa hàng!"
+            android:textSize="20sp" />
+
+        <ImageButton
+            android:id="@+id/logout_button"
+            android:layout_width="54dp"
+            android:layout_height="54dp"
             android:layout_marginTop="6dp"
             android:layout_marginBottom="6dp"
-            android:layout_marginEnd="6dp"
+
             android:contentDescription="logout"
             app:srcCompat="@drawable/ic_logout" />
 
         <!-- Nút thêm món ăn -->
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
+        <ImageButton
             android:id="@+id/add_food"
+            android:layout_width="54dp"
+            android:layout_height="54dp"
+            android:layout_marginLeft="1dp"
+            android:layout_marginTop="6dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="6dp"
+            android:contentDescription="Add Food"
             android:elevation="0dp"
             android:translationZ="0dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
-            android:layout_marginBottom="6dp"
-            android:layout_marginEnd="6dp"
-            android:contentDescription="Add Food"
             app:srcCompat="@drawable/ic_add" />
     </LinearLayout>
 

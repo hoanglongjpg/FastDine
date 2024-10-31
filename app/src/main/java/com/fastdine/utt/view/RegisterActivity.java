@@ -61,11 +61,11 @@ public class RegisterActivity extends AppCompatActivity {
 
         // Kiểm tra nếu email hoặc mật khẩu rỗng
         if (TextUtils.isEmpty(email)) {
-            emailEditText.setError("Email is required");
+            emailEditText.setError("Email là bắt buộc");
             return;
         }
         if (TextUtils.isEmpty(password)) {
-            passwordEditText.setError("Password is required");
+            passwordEditText.setError("Mật khẩu là bắt buộc");
             return;
         }
 
@@ -76,13 +76,13 @@ public class RegisterActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Đăng ký thành công, chuyển sang giao diện đăng nhập
-                            Toast.makeText(RegisterActivity.this, "User registered successfully", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(RegisterActivity.this, "Đăng ký tài khoản thành công", Toast.LENGTH_SHORT).show();
                             ctrl.saveInfoOnRegister(email);
                             startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
                             finish();
                         } else {
                             // Hiển thị lỗi nếu đăng ký thất bại
-                            Toast.makeText(RegisterActivity.this, "Registration failed: " + task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                            Toast.makeText(RegisterActivity.this, "Đăng ký thất bại: " + task.getException().getMessage(), Toast.LENGTH_LONG).show();
                         }
                     }
                 });

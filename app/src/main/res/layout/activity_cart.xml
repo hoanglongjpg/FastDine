@@ -15,8 +15,8 @@
         <!-- Icon thùng rác (Delete) nằm bên trái -->
         <ImageButton
             android:id="@+id/clearCartButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="54dp"
+            android:layout_height="54dp"
             android:src="@drawable/ic_delete"
             android:contentDescription="Clear Cart"
             android:layout_marginEnd="8dp" />
@@ -33,8 +33,8 @@
 
         <!-- Icon đóng giỏ hàng nằm bên phải -->
         <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="54dp"
+            android:layout_height="54dp"
             android:src="@drawable/ic_close"
             android:contentDescription="Close Cart"
             android:onClick="closeCart" />
