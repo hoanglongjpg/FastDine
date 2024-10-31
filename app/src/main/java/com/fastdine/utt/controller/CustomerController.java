@@ -194,8 +194,29 @@ public class CustomerController {
         });
     }
 
-    public void saveInfo(){
-        Customer.saveCustomer(new Customer.OnCustomerListener() {
+    public void saveInfoOnRegister(String email) {
+        String newName = ""; // Để trống
+        String newAddress = ""; // Để trống
+        String newPhone = ""; // Để trống
+
+        Customer.saveCustomer(newName, newAddress, newPhone, new Customer.OnCustomerListener() {
+            @Override
+            public void onComplete() {
+                // Thông báo thành công (tuỳ chọn)
+                Toast.makeText(context, "Đăng ký thành công. Thông tin đã được lưu.", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onError(Exception e) {
+                // Xử lý khi có lỗi xảy ra
+                Toast.makeText(context, "Lỗi khi lưu thông tin khách hàng: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    public void saveInfo(String newName, String newAddress, String newPhone){
+
+        Customer.saveCustomer(newName, newAddress, newPhone, new Customer.OnCustomerListener() {
             @Override
             public void onComplete() {
                 // Thông báo thành công (tuỳ chọn)
@@ -236,6 +257,15 @@ public class CustomerController {
         });
     }
 
+    public void confirmAndSaveInfoIfChanged(String originalName, String originalAddress, String originalPhone, String newName, String newAddress, String newPhone) {
+        boolean infoChanged = !originalName.equals(newName) || !originalAddress.equals(newAddress) || !originalPhone.equals(newPhone);
+
+        if (infoChanged) {
+            // Lưu thông tin nếu có sự thay đổi
+            saveInfo(newName, newAddress, newPhone);
+        }
+    }
+
     public void showOrderDialog(Context context) {
         Dialog dialog = new Dialog(context);
         dialog.setContentView(R.layout.dialog_customer_info);
@@ -254,31 +284,40 @@ public class CustomerController {
         Customer.getCustomerInfo(new Customer.OnCustomerInfoListener() {
             @Override
             public void onComplete(Customer customer) {
-                editTextName.setText(customer.getName());
-                editTextAddress.setText(customer.getAddress());
-                editTextPhone.setText(customer.getPhone());
+                // Lưu thông tin khách hàng ban đầu
+                final String originalName = customer.getName();
+                final String originalAddress = customer.getAddress();
+                final String originalPhone = customer.getPhone();
+
+                // Set text cho các trường thông tin
+                editTextName.setText(originalName);
+                editTextAddress.setText(originalAddress);
+                editTextPhone.setText(originalPhone);
                 editTextEmail.setText(customer.getEmail());
+
+                // Xử lý sự kiện nút "Đặt hàng"
+                buttonPlaceOrder.setOnClickListener(v -> {
+                    String newName = editTextName.getText().toString().trim();
+                    String newAddress = editTextAddress.getText().toString().trim();
+                    String newPhone = editTextPhone.getText().toString().trim();
+
+                    if (newName.isEmpty() || newAddress.isEmpty() || newPhone.isEmpty()) {
+                        Toast.makeText(context, "Vui lòng nhập đầy đủ thông tin", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                    // Kiểm tra thay đổi và lưu nếu cần
+                    confirmAndSaveInfoIfChanged(originalName, originalAddress, originalPhone, newName, newAddress, newPhone);
+
+                    // Tạo đơn hàng sau khi xác nhận
+                    createOrder(newName, newAddress, newPhone, dialog);
+                });
             }
 
             @Override
             public void onError(Exception e) {
-
+                Toast.makeText(context, "Không thể tải thông tin khách hàng", Toast.LENGTH_SHORT).show();
             }
-        });
-
-        // Xử lý sự kiện nút "Đặt hàng"
-        buttonPlaceOrder.setOnClickListener(v -> {
-            String name = editTextName.getText().toString().trim();
-            String address = editTextAddress.getText().toString().trim();
-            String phone = editTextPhone.getText().toString().trim();
-
-            if (name.isEmpty() || address.isEmpty() || phone.isEmpty()) {
-                Toast.makeText(context, "Vui lòng nhập đầy đủ thông tin", Toast.LENGTH_SHORT).show();
-                return;
-            }
-
-            // Gọi hàm tạo đơn hàng
-            createOrder(name, address, phone, dialog);
         });
 
         // Hiển thị Dialog

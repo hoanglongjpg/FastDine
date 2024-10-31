@@ -77,7 +77,7 @@ public class RegisterActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             // Đăng ký thành công, chuyển sang giao diện đăng nhập
                             Toast.makeText(RegisterActivity.this, "User registered successfully", Toast.LENGTH_SHORT).show();
-                            ctrl.saveInfo();
+                            ctrl.saveInfoOnRegister(email);
                             startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
                             finish();
                         } else {

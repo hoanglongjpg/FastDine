@@ -92,25 +92,25 @@ public class Customer {
     }
 
     // Hàm lưu thông tin khách hàng vào Firestore
-    public static void saveCustomer(final Customer.OnCustomerListener listener) {
-        String email = FirebaseAuth.getInstance().getCurrentUser().getEmail(); // Lấy email người dùng hiện tại
+    public static void saveCustomer(String name, String address, String phone, OnCustomerListener listener) {
+        String userEmail = FirebaseAuth.getInstance().getCurrentUser().getEmail();
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
+        // Tạo một Map với các thông tin mới
         Map<String, Object> customerData = new HashMap<>();
-        customerData.put("name", "");      // Trường name để trống
-        customerData.put("email", email);  // Lưu email người dùng
-        customerData.put("address", "");   // Trường address để trống
-        customerData.put("phone", "");     // Trường phone để trống
+        customerData.put("name", name);
+        customerData.put("address", address);
+        customerData.put("phone", phone);
+        customerData.put("email", userEmail); // Nếu muốn cập nhật email
 
-        db.collection("customers").document(email)
+        // Cập nhật vào Firestore
+        db.collection("customers").document(userEmail)
                 .set(customerData, SetOptions.merge())
                 .addOnSuccessListener(aVoid -> {
                     listener.onComplete();
-                        // Lưu thành công
                 })
                 .addOnFailureListener(e -> {
                     listener.onError(e);
-                        // Lưu thất bại
                 });
     }
 
