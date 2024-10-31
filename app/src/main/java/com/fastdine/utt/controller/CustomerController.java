@@ -275,6 +275,7 @@ public class CustomerController {
         EditText editTextAddress = dialog.findViewById(R.id.editTextAddress);
         EditText editTextPhone = dialog.findViewById(R.id.editTextPhone);
         EditText editTextEmail = dialog.findViewById(R.id.editTextEmail);
+        editTextEmail.setEnabled(false);
         Button buttonCancel = dialog.findViewById(R.id.buttonCancel);
         Button buttonPlaceOrder = dialog.findViewById(R.id.buttonConfirm);
 
