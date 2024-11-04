@@ -27,6 +27,7 @@
             this.foodList = foodList;
             this.customerController = customerController;
         }
+
         public FoodAdapter(List<Food> foodList) {
             this.foodList = foodList;
         }

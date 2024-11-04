@@ -27,7 +27,6 @@ public class Customer {
     public Customer() {
     }
 
-    // Constructor
     public Customer(String customerId, String email, String name, String phone, String address) {
         this.customerId = "customer_" + customerId;
         this.email = email;
@@ -44,7 +43,6 @@ public class Customer {
         this.address = address;
     }
 
-    // Getters and Setters
     public String getCustomerId() {
         return customerId;
     }
@@ -91,7 +89,6 @@ public class Customer {
         void onError(Exception e);
     }
 
-    // Hàm lưu thông tin khách hàng vào Firestore
     public static void saveCustomer(String name, String address, String phone, OnCustomerListener listener) {
         String userEmail = FirebaseAuth.getInstance().getCurrentUser().getEmail();
         FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -135,7 +132,6 @@ public class Customer {
         });
     }
 
-    // Giao diện để nhận thông tin khách hàng
     public interface OnCustomerInfoListener {
         void onComplete(Customer customer);
         void onError(Exception e);

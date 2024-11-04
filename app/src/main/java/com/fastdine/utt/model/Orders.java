@@ -39,10 +39,10 @@ public class Orders {
 
     public Orders(){}
 
-    // Getters and Setters
     private void setItems(List<Cart.CartItems> itemsList) {
         this.items = itemsList;
     }
+
     public String getOrderId() {
         return orderId;
     }
@@ -216,7 +216,6 @@ public class Orders {
                     }
                 });
     }
-
 
     public static void addOrder(Orders order, OnOrderListener listener) {
         // Lấy email của khách hàng

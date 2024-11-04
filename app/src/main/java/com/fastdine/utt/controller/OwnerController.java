@@ -27,8 +27,6 @@ public class OwnerController {
         this.context = context.getApplicationContext();
     }
 
-
-    // Hàm để hiển thị danh sách món ăn
     public void viewFoodList(RecyclerView recyclerView) {
         // Gọi hàm getFoodList từ Food.java
         Food.getFoodList(new Food.OnFoodListListener() {
@@ -55,7 +53,6 @@ public class OwnerController {
         });
     }
 
-    // Hàm để hiển thị Dialog thêm món ăn
     public void addFood(RecyclerView recyclerView, Context context) {
         Dialog dialog = new Dialog(context);
         dialog.setContentView(R.layout.dialog_add_food);
@@ -110,7 +107,6 @@ public class OwnerController {
         dialog.show();
     }
 
-    //Sửa món ăn
     public void editFood(Food foodItem, RecyclerView recyclerView, Context context) {
         Dialog dialog = new Dialog(context);
         dialog.setContentView(R.layout.dialog_update_food);
@@ -156,7 +152,6 @@ public class OwnerController {
         dialog.show();
     }
 
-    //Xoá món ăn
     public void deleteFood(String foodId, RecyclerView recyclerView) {
         // Tạo dialog xác nhận xóa
         new AlertDialog.Builder(context)
@@ -184,7 +179,6 @@ public class OwnerController {
                 .show();
     }
 
-    // Hàm để hiển thị danh sách đơn hàng
     public void viewOrderList(RecyclerView recyclerView) {
         Orders.getOrderList(new Orders.OnOrderListListener() {
             @Override

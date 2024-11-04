@@ -47,7 +47,6 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    // Hàm xử lý đăng nhập người dùng
     private void loginUser() {
         String email = emailEditText.getText().toString().trim();
         String password = passwordEditText.getText().toString().trim();

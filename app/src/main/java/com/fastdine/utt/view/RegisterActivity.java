@@ -54,7 +54,6 @@ public class RegisterActivity extends AppCompatActivity {
         });
     }
 
-    // Hàm xử lý đăng ký người dùng
     private void registerUser() {
         String email = emailEditText.getText().toString().trim();
         String password = passwordEditText.getText().toString().trim();
@@ -87,6 +86,5 @@ public class RegisterActivity extends AppCompatActivity {
                     }
                 });
     }
-
 }
 
