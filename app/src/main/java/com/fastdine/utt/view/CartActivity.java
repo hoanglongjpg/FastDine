@@ -54,21 +54,15 @@ public class CartActivity extends AppCompatActivity {
 
     private void showDeleteConfirmationDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        View dialogView = LayoutInflater.from(this).inflate(R.layout.delete_cart_cf, null);
-        builder.setView(dialogView);
+        builder.setMessage("Bạn có chắc chắn muốn xóa giỏ hàng không?")
+                .setPositiveButton("Xóa", (dialog, id) -> {
+                    // Xóa giỏ hàng bằng cách gọi controller
+                    ctrl.clearCart();
+                    dialog.dismiss();
+                })
+                .setNegativeButton("Hủy", (dialog, id) -> dialog.dismiss());
+
         AlertDialog dialog = builder.create();
-
-        Button cancelButton = dialogView.findViewById(R.id.cancelButton);
-        Button confirmButton = dialogView.findViewById(R.id.confirmDeleteButton);
-
-        cancelButton.setOnClickListener(v -> dialog.dismiss());
-
-        confirmButton.setOnClickListener(v -> {
-            ctrl.clearCart();  // Call controller to clear the cart
-            dialog.dismiss();
-        });
-
         dialog.show();
     }
-
 }
