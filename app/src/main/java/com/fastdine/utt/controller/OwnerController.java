@@ -206,7 +206,7 @@ public class OwnerController {
 
     public void updateStatus(String orderId, RecyclerView recyclerView) {
         // Tạo một mảng chứa các trạng thái
-        String[] statuses = {"Đã nhận", "Đang chuẩn bị", "Đã giao"};
+        String[] statuses = {"Đang chuẩn bị", "Đã giao"};
 
         // Tạo AlertDialog Builder cho việc chọn trạng thái
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
