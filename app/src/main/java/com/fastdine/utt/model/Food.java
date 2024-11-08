@@ -12,7 +12,6 @@ public class Food {
     private String image;
     private double price;
 
-    //Constructor
     public Food(String name, String description, String image, double price) {
         this.name = name;
         this.description = description;
@@ -31,7 +30,6 @@ public class Food {
     public Food(){
     }
 
-    // Getters & Setters
     public String getId() {
         return id;
     }
@@ -77,7 +75,6 @@ public class Food {
         void onError(Exception e);
     }
 
-    // Hàm lấy danh sách món ăn từ Firestore
     public static void getFoodList(final OnFoodListListener listener) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("foods")
@@ -101,7 +98,6 @@ public class Food {
                 });
     }
 
-    //Thêm món ăn
     public static void addFood(Food food, OnFoodListListener listener) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("foods")
@@ -119,7 +115,6 @@ public class Food {
                 .addOnFailureListener(e -> listener.onError(null));
     }
 
-    //Sửa món ăn
     public static void updateFood(Food food, OnFoodListListener listener) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("foods").document(food.getId())
@@ -128,7 +123,6 @@ public class Food {
                 .addOnFailureListener(listener::onError);
     }
 
-    // Xoá món ăn
     public static void deleteFood(String foodId, OnFoodListListener listener) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("foods").document(foodId)
@@ -144,5 +138,4 @@ public class Food {
                     }
                 });
     }
-
 }

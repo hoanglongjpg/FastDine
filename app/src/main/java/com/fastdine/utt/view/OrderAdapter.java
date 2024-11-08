@@ -1,5 +1,6 @@
 package com.fastdine.utt.view;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +20,9 @@ import com.fastdine.utt.controller.CustomerController;
 import com.fastdine.utt.controller.OwnerController;
 import com.fastdine.utt.model.Orders;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -28,6 +31,8 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
     private List<Orders> orderList;
     private OwnerController ownerController;
     private CustomerController customerController;
+
+    DecimalFormat currencyFormat = new DecimalFormat("#,###");
 
     public OrderAdapter(List<Orders> orderList, OwnerController ownerController, RecyclerView recyclerView ) {
         this.orderList = orderList;
@@ -60,11 +65,11 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
     @Override
     public void onBindViewHolder(@NonNull OrderViewHolder holder, int position) {
         Orders order = orderList.get(position);
-
+        String price = currencyFormat.format(order.getTotalPrice());
         // Hiển thị thông tin đơn hàng
         holder.orderIdTextView.setText("Đơn hàng #" + order.getOrderId());
         holder.foodQuantityTextView.setText("Tổng số món: " + order.getTotalQuantity() + " món");
-        holder.totalPriceTextView.setText("Tổng tiền: " + order.getTotalPrice() + "đ");
+        holder.totalPriceTextView.setText("Tổng tiền: " + String.format("%sđ", price));
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm, dd/MM/yyyy", Locale.getDefault());
         String formattedTime = dateFormat.format(order.getOrderTime());
@@ -104,6 +109,13 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
             if (ownerController != null) {
                 ownerController.updateStatus(order.getOrderId(), recyclerView);
             }
+        });
+
+        // Sự kiện khi nhấn vào item đơn hàng
+        holder.itemView.setOnClickListener(v -> {
+            Intent intent = new Intent(holder.itemView.getContext(), OrderDetailActivity.class);
+            intent.putExtra("orderId", order.getOrderId()); // Truyền orderId qua intent
+            holder.itemView.getContext().startActivity(intent);
         });
     }
 

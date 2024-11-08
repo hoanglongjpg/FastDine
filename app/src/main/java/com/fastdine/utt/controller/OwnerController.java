@@ -27,8 +27,6 @@ public class OwnerController {
         this.context = context.getApplicationContext();
     }
 
-
-    // Hàm để hiển thị danh sách món ăn
     public void viewFoodList(RecyclerView recyclerView) {
         // Gọi hàm getFoodList từ Food.java
         Food.getFoodList(new Food.OnFoodListListener() {
@@ -55,7 +53,6 @@ public class OwnerController {
         });
     }
 
-    // Hàm để hiển thị Dialog thêm món ăn
     public void addFood(RecyclerView recyclerView, Context context) {
         Dialog dialog = new Dialog(context);
         dialog.setContentView(R.layout.dialog_add_food);
@@ -110,7 +107,6 @@ public class OwnerController {
         dialog.show();
     }
 
-    //Sửa món ăn
     public void editFood(Food foodItem, RecyclerView recyclerView, Context context) {
         Dialog dialog = new Dialog(context);
         dialog.setContentView(R.layout.dialog_update_food);
@@ -156,7 +152,6 @@ public class OwnerController {
         dialog.show();
     }
 
-    //Xoá món ăn
     public void deleteFood(String foodId, RecyclerView recyclerView) {
         // Tạo dialog xác nhận xóa
         new AlertDialog.Builder(context)
@@ -184,7 +179,6 @@ public class OwnerController {
                 .show();
     }
 
-    // Hàm để hiển thị danh sách đơn hàng
     public void viewOrderList(RecyclerView recyclerView) {
         Orders.getOrderList(new Orders.OnOrderListListener() {
             @Override
@@ -212,7 +206,7 @@ public class OwnerController {
 
     public void updateStatus(String orderId, RecyclerView recyclerView) {
         // Tạo một mảng chứa các trạng thái
-        String[] statuses = {"Đã nhận", "Đang chuẩn bị", "Đã giao"};
+        String[] statuses = {"Đang chuẩn bị", "Đã giao"};
 
         // Tạo AlertDialog Builder cho việc chọn trạng thái
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
@@ -276,6 +270,23 @@ public class OwnerController {
             @Override
             public void onError(Exception e) {
                 Toast.makeText(context, "Lỗi khi huỷ đơn hàng: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    public void viewOrderDetail(String orderId, Orders.OnDetailListener listener) {
+        // Gọi phương thức trong Orders để truy vấn chi tiết đơn hàng từ Firebase
+        Orders.getOrderDetail(orderId, new Orders.OnDetailListener() {
+            @Override
+            public void onComplete(Orders order) {
+                // Truyền kết quả qua listener
+                listener.onComplete(order);
+            }
+
+            @Override
+            public void onError(Exception e) {
+                // Truyền lỗi qua listener
+                listener.onError(e);
             }
         });
     }

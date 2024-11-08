@@ -16,7 +16,6 @@ public class Cart {
         private int quantity;
 
         public CartItems() {
-
         }
 
         public int getQuantity() {
@@ -68,7 +67,6 @@ public class Cart {
         void onError(Exception e);
     }
 
-    //Lấy danh sách món ăn trong giỏ hàng từ Firebase
     public static void getCartItems(final OnCartListListener listener) {
         String userEmail = FirebaseAuth.getInstance().getCurrentUser().getEmail(); // Lấy email người dùng hiện tại
         FirebaseFirestore db = FirebaseFirestore.getInstance();

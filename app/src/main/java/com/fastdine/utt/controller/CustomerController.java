@@ -39,7 +39,7 @@ public class CustomerController {
     public CustomerController(){
         this.context = context.getApplicationContext();
     }
-    // Hàm để hiển thị danh sách món ăn
+
     public void viewAvailableFood(RecyclerView recyclerView) {
         // Gọi hàm getFoodList từ Food.java
         Food.getFoodList(new Food.OnFoodListListener() {
@@ -146,7 +146,6 @@ public class CustomerController {
         });
     }
 
-    // Hàm gọi addItemToCart trong controller
     public void addItemToCart(Cart.CartItems newItem) {
         // Thêm món ăn vào giỏ hàng và cập nhật Firestore
         Cart.addItemToCart(newItem);
@@ -325,7 +324,6 @@ public class CustomerController {
         dialog.show();
     }
 
-    // Hàm để hiển thị danh sách đơn hàng
     public void viewOrderList(RecyclerView recyclerView) {
         String userEmail = FirebaseAuth.getInstance().getCurrentUser().getEmail(); // Lấy email của người dùng hiện tại
         Orders.getOrderListCustomer(userEmail, new Orders.OnOrderListListener() {

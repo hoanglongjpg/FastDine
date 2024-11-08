@@ -39,10 +39,10 @@ public class Orders {
 
     public Orders(){}
 
-    // Getters and Setters
     private void setItems(List<Cart.CartItems> itemsList) {
         this.items = itemsList;
     }
+
     public String getOrderId() {
         return orderId;
     }
@@ -59,8 +59,8 @@ public class Orders {
         this.customerId = customerId;
     }
 
-    public Map<String, Object> getItems() {
-        return (Map<String, Object>) items;
+    public List<Cart.CartItems> getItems() {
+        return items;
     }
 
     public String getName() {
@@ -217,7 +217,6 @@ public class Orders {
                 });
     }
 
-
     public static void addOrder(Orders order, OnOrderListener listener) {
         // Lấy email của khách hàng
         String userEmail = FirebaseAuth.getInstance().getCurrentUser().getEmail();
@@ -286,8 +285,29 @@ public class Orders {
                 .addOnFailureListener(listener::onError);
     }
 
+    public static void getOrderDetail(String orderId, OnDetailListener listener) {
+        // Truy vấn Firestore để lấy chi tiết đơn hàng
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("orders").document(orderId).get()
+                .addOnSuccessListener(documentSnapshot -> {
+                    if (documentSnapshot.exists()) {
+                        Orders order = documentSnapshot.toObject(Orders.class);
+                        order.setOrderId(orderId);  // Gán lại orderId
+                        listener.onComplete(order);  // Trả kết quả qua listener
+                    } else {
+                        listener.onError(new Exception("Không tìm thấy đơn hàng"));
+                    }
+                })
+                .addOnFailureListener(listener::onError);
+    }
+
     public interface OnOrderListListener {
         void onOrderListReceived(List<Orders> ordersList);
+        void onError(Exception e);
+    }
+
+    public interface OnDetailListener {
+        void onComplete(Orders order);
         void onError(Exception e);
     }
 
