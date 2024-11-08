@@ -33,7 +33,6 @@ public class OrderDetailActivity extends AppCompatActivity {
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Kết thúc Activity hiện tại và quay lại màn hình trước đó
                 onBackPressed();
             }
         });

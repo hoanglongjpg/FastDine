@@ -24,7 +24,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
     }
 
     public CartAdapter(Context context, List<Cart.CartItems> cartItemList) {
-        this.context = context;  // Initialize context
+        this.context = context;
         this.cartItemList = cartItemList;
     }
 
@@ -43,9 +43,8 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
         holder.itemPrice.setText(cartItem.getPrice() + "đ");
         holder.itemQuantity.setText(String.valueOf(cartItem.getQuantity()));
 
-        // Assuming the image is stored as a URL; you may need a library like Glide or Picasso to load images from URLs.
         Glide.with(holder.itemView.getContext())
-                .load(cartItem.getImage()) // Load image from URL or resource ID
+                .load(cartItem.getImage())
                 .into(holder.itemImage);
 
         // Xử lý tăng giảm số lượng
@@ -60,7 +59,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
             int newQuantity = cartItem.getQuantity() - 1;
             if (newQuantity > 0) {
                 cartItem.setQuantity(newQuantity);  // Giảm số lượng trong danh sách static
-                notifyItemChanged(position);   // Cập nhật lại item trên giao diện
+                notifyItemChanged(position);
                 double total = new Cart("user_email", cartItemList).calTotalPrice(cartItemList);
                 ((CartActivity) context).updateTotalPrice(total);
             } else {

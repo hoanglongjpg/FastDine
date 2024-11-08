@@ -2,6 +2,7 @@ package com.fastdine.utt.view;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button; // Thêm import cho Button
 import android.widget.ImageButton;
 
@@ -42,10 +43,12 @@ public class OwnerActivity extends AppCompatActivity {
             if (item.getItemId() == R.id.nav_food) {
                 // Hiển thị danh sách món ăn
                 ctrl.viewFoodList(recyclerView);
+                findViewById(R.id.add_food).setVisibility(View.VISIBLE);
                 return true;
             } else if (item.getItemId() == R.id.nav_orders) {
                 // Hiển thị danh sách đơn hàng
                 ctrl.viewOrderList(recyclerView);
+                findViewById(R.id.add_food).setVisibility(View.GONE);
                 return true;
             }
             return false;

@@ -33,18 +33,17 @@ public class CartActivity extends AppCompatActivity {
         ctrl = new CustomerController(this);
 
         ctrl.viewCart(cartRecyclerView);
-        // Set click listener for the clear cart button
+
         findViewById(R.id.clearCartButton).setOnClickListener(v -> showDeleteConfirmationDialog());
 
-        //Sự kiện nút "Giao hàng"
-        // Trong CartActivity.java
+        //Sự kiện nút Giao hàng
         Button orderButton = findViewById(R.id.orderButton);
         orderButton.setOnClickListener(v -> ctrl.showOrderDialog(this));
     }
 
     public void updateTotalPrice(double total) {
         String strtotal = currencyFormat.format(total);
-        totalPriceText.setText(String.format("%sđ", strtotal)); // Hiển thị giá tổng
+        totalPriceText.setText(String.format("%sđ", strtotal));
     }
 
     public void closeCart(View view) {
