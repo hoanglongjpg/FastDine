@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.fastdine.utt.R;
 import com.fastdine.utt.model.Cart;
-import com.fastdine.utt.model.Orders;
 
 import java.text.DecimalFormat;
 import java.util.List;
@@ -29,7 +28,7 @@ public class OrderItemAdapter extends RecyclerView.Adapter<OrderItemAdapter.Orde
     @NonNull
     @Override
     public OrderItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_order_detail_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.order_detail_item, parent, false);
         return new OrderItemViewHolder(view);
     }
 
