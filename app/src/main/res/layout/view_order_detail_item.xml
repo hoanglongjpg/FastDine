@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="8dp">
+
+    <!-- Ảnh sản phẩm -->
+    <ImageView
+        android:id="@+id/itemImage"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:src="@drawable/ic_image"
+        android:layout_gravity="center_vertical"
+        android:scaleType="centerCrop"
+        android:layout_marginEnd="8dp" />
+
+    <!-- Chi tiết sản phẩm -->
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:gravity="center_vertical">
+
+        <!-- Tên sản phẩm -->
+        <TextView
+            android:id="@+id/itemName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Trà Chanh Nha Đam"
+            android:textSize="16sp"
+            android:textColor="#000000" />
+
+        <!-- Giá sản phẩm -->
+        <TextView
+            android:id="@+id/itemPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="17.000đ"
+            android:textSize="14sp" />
+
+        <!-- Hiển thị số lượng -->
+        <TextView
+            android:id="@+id/itemQuantity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:text="2"
+            android:textSize="20sp"
+            android:gravity="center" />
+    </LinearLayout>
+</LinearLayout>

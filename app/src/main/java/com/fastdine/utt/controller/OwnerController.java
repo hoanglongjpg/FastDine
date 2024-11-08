@@ -273,4 +273,21 @@ public class OwnerController {
             }
         });
     }
+
+    public void viewOrderDetail(String orderId, Orders.OnDetailListener listener) {
+        // Gọi phương thức trong Orders để truy vấn chi tiết đơn hàng từ Firebase
+        Orders.getOrderDetail(orderId, new Orders.OnDetailListener() {
+            @Override
+            public void onComplete(Orders order) {
+                // Truyền kết quả qua listener
+                listener.onComplete(order);
+            }
+
+            @Override
+            public void onError(Exception e) {
+                // Truyền lỗi qua listener
+                listener.onError(e);
+            }
+        });
+    }
 }

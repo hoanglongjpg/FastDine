@@ -23,7 +23,7 @@
         android:paddingBottom="16dp">
 
         <TextView
-            android:id="@+id/orderId"
+            android:id="@+id/txtOrderId"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Mã đơn hàng: #23102024-222033"
@@ -31,7 +31,7 @@
             android:paddingBottom="4dp" />
 
         <TextView
-            android:id="@+id/customerName"
+            android:id="@+id/txtCustomerName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Tên khách hàng: Nguyễn Văn A"
@@ -39,7 +39,7 @@
             android:paddingBottom="4dp" />
 
         <TextView
-            android:id="@+id/customerPhone"
+            android:id="@+id/txtPhone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Số điện thoại: 0123456789"
@@ -47,7 +47,7 @@
             android:paddingBottom="4dp" />
 
         <TextView
-            android:id="@+id/customerAddress"
+            android:id="@+id/txtAddress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Địa chỉ: 123 Đường ABC, Quận 1, TP. HCM"
@@ -56,7 +56,7 @@
 
     <!-- RecyclerView để hiển thị các món trong đơn hàng -->
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView_order_items"
+        android:id="@+id/recyclerViewOrderItems"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:divider="?android:attr/listDivider"
@@ -65,7 +65,7 @@
 
     <!-- Hiển thị tổng giá trị đơn hàng -->
     <TextView
-        android:id="@+id/orderTotal"
+        android:id="@+id/txtTotalAmount"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Tổng cộng: 40.000đ"
@@ -73,30 +73,6 @@
         android:gravity="end"
         android:paddingTop="16dp"
         android:textColor="#FF5722" />
-
-    <!-- Nút điều chỉnh trạng thái đơn hàng -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center"
-        android:paddingTop="16dp">
-
-        <!-- Nút Hủy đơn hàng -->
-        <Button
-            android:id="@+id/btnCancelOrder"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Hủy" />
-
-        <!-- Nút Thay đổi trạng thái đơn hàng -->
-        <Button
-            android:id="@+id/btnChangeOrderStatus"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Thay đổi trạng thái đơn hàng"
-            android:layout_marginStart="16dp" />
-    </LinearLayout>
 </LinearLayout>
 
 

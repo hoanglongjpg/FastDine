@@ -1,5 +1,6 @@
 package com.fastdine.utt.view;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,7 @@ import com.fastdine.utt.controller.OwnerController;
 import com.fastdine.utt.model.Orders;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -104,6 +106,13 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
             if (ownerController != null) {
                 ownerController.updateStatus(order.getOrderId(), recyclerView);
             }
+        });
+
+        // Sự kiện khi nhấn vào item đơn hàng
+        holder.itemView.setOnClickListener(v -> {
+            Intent intent = new Intent(holder.itemView.getContext(), OrderDetailActivity.class);
+            intent.putExtra("orderId", order.getOrderId()); // Truyền orderId qua intent
+            holder.itemView.getContext().startActivity(intent);
         });
     }
 
