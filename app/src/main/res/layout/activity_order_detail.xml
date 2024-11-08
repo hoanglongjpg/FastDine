@@ -5,15 +5,30 @@
     android:orientation="vertical"
     android:padding="16dp">
 
-    <!-- Tiêu đề của giao diện chi tiết đơn hàng -->
-    <TextView
-        android:layout_width="wrap_content"
+    <!-- Thêm LinearLayout cho nút quay lại và tiêu đề -->
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Chi tiết đơn hàng"
-        android:textSize="20sp"
-        android:fontFamily="sans-serif-medium"
-        android:layout_gravity="center"
-        android:paddingBottom="8dp" />
+        android:orientation="horizontal"
+        android:paddingBottom="8dp">
+
+        <!-- Nút quay lại -->
+        <ImageButton
+            android:id="@+id/backButton"
+            android:layout_width="54dp"
+            android:layout_height="54dp"
+            android:src="@drawable/ic_back"
+            android:layout_marginEnd="8dp" />
+
+        <!-- Tiêu đề của giao diện chi tiết đơn hàng -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Chi tiết đơn hàng"
+            android:textSize="20sp"
+            android:fontFamily="sans-serif-medium"
+            android:layout_gravity="center_vertical" />
+    </LinearLayout>
 
     <!-- Thông tin khách hàng -->
     <LinearLayout
@@ -68,11 +83,10 @@
         android:id="@+id/txtTotalAmount"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Tổng cộng: 40.000đ"
+        android:text="Tổng giá"
         android:textSize="18sp"
         android:gravity="end"
-        android:paddingTop="16dp"
-        android:textColor="#FF5722" />
+        android:paddingTop="16dp"/>
 </LinearLayout>
 
 

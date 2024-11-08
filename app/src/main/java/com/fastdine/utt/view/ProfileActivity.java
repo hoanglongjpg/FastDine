@@ -3,7 +3,9 @@ package com.fastdine.utt.view;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -16,6 +18,7 @@ public class ProfileActivity extends AppCompatActivity {
     private TextView profileName, profilePhone, profileEmail, profileAddress;
     private Button logoutButton;
     private CustomerController ctrl;
+    private ImageButton btnBack;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +26,7 @@ public class ProfileActivity extends AppCompatActivity {
         setContentView(R.layout.customer_view_profile); // Đảm bảo bạn đặt đúng layout
 
         // Khởi tạo các View
+        btnBack = findViewById(R.id.backButton);
         profileName = findViewById(R.id.profileName);
         profilePhone = findViewById(R.id.profilePhone);
         profileEmail = findViewById(R.id.profileEmail);
@@ -31,6 +35,15 @@ public class ProfileActivity extends AppCompatActivity {
 
         ctrl = new CustomerController(this);
         viewCustomerInfo();
+
+
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Kết thúc Activity hiện tại và quay lại màn hình trước đó
+                onBackPressed();
+            }
+        });
 
         logoutButton.setOnClickListener(v -> {
             FirebaseAuth.getInstance().signOut(); // Đăng xuất khỏi Firebase

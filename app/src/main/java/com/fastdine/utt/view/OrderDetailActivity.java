@@ -1,6 +1,8 @@
 package com.fastdine.utt.view;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -10,13 +12,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.fastdine.utt.R;
 import com.fastdine.utt.controller.OwnerController;
-import com.fastdine.utt.model.Cart;
 import com.fastdine.utt.model.Orders;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.text.DecimalFormat;
 
 public class OrderDetailActivity extends AppCompatActivity {
     private TextView txtOrderId, txtCustomerName, txtPhone, txtAddress, txtTotalAmount;
@@ -24,10 +22,21 @@ public class OrderDetailActivity extends AppCompatActivity {
     private OrderItemAdapter orderItemAdapter;
     private OwnerController ctrl;
 
+    DecimalFormat currencyFormat = new DecimalFormat("#,###");
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.order_detail_activity);
+        setContentView(R.layout.activity_order_detail);
+
+        ImageButton btnBack = findViewById(R.id.backButton);
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Kết thúc Activity hiện tại và quay lại màn hình trước đó
+                onBackPressed();
+            }
+        });
 
         // Ánh xạ các thành phần giao diện
         txtOrderId = findViewById(R.id.txtOrderId);
@@ -47,11 +56,12 @@ public class OrderDetailActivity extends AppCompatActivity {
             @Override
             public void onComplete(Orders order) {
                 // Khi nhận được thông tin đơn hàng từ model, hiển thị lên giao diện
+                String price = currencyFormat.format(order.getTotalPrice());
                 txtOrderId.setText("Mã đơn hàng: " + order.getOrderId());
                 txtCustomerName.setText("Tên khách hàng: " + order.getName());
                 txtPhone.setText("Số điện thoại: " + order.getPhone());
                 txtAddress.setText("Địa chỉ: " + order.getAddress());
-                txtTotalAmount.setText("Tổng cộng: " + order.getTotalPrice() + "đ");
+                txtTotalAmount.setText("Tổng cộng: " + String.format("%sđ", price));
 
                 // Cập nhật danh sách món ăn vào RecyclerView
                 orderItemAdapter = new OrderItemAdapter(order.getItems());

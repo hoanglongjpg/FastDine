@@ -16,12 +16,15 @@
     import com.fastdine.utt.model.Cart;
     import com.fastdine.utt.model.Food;
 
+    import java.text.DecimalFormat;
     import java.util.List;
 
     public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.FoodViewHolder> {
         private List<Food> foodList;
         private OwnerController ownerController;
         private CustomerController customerController;
+
+        DecimalFormat currencyFormat = new DecimalFormat("#,###");
 
         public FoodAdapter(List<Food> foodList, CustomerController customerController) {
             this.foodList = foodList;
@@ -54,9 +57,10 @@
         @Override
         public void onBindViewHolder(@NonNull FoodViewHolder holder, int position) {
             Food foodItem = foodList.get(position);
+            String price = currencyFormat.format(foodItem.getPrice());
             holder.nameTextView.setText(foodItem.getName());
             holder.descriptionTextView.setText(foodItem.getDescription());
-            holder.priceTextView.setText(String.valueOf(foodItem.getPrice()) + "đ");
+            holder.priceTextView.setText(String.format("%sđ", price));
 
             // Sử dụng Glide để tải ảnh món ăn
             Glide.with(holder.itemView.getContext())

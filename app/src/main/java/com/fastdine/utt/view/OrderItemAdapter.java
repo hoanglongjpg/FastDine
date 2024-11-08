@@ -12,11 +12,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.fastdine.utt.R;
 import com.fastdine.utt.model.Cart;
+import com.fastdine.utt.model.Orders;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 public class OrderItemAdapter extends RecyclerView.Adapter<OrderItemAdapter.OrderItemViewHolder> {
     private List<Cart.CartItems> items;
+
+    DecimalFormat currencyFormat = new DecimalFormat("#,###");
 
     public OrderItemAdapter(List<Cart.CartItems> items) {
         this.items = items;
@@ -32,9 +36,10 @@ public class OrderItemAdapter extends RecyclerView.Adapter<OrderItemAdapter.Orde
     @Override
     public void onBindViewHolder(@NonNull OrderItemViewHolder holder, int position) {
         Cart.CartItems item = items.get(position);
+        String price = currencyFormat.format(item.getPrice());
         holder.foodName.setText(item.getName());
         holder.foodQuantity.setText("Số lượng: " + item.getQuantity());
-        holder.foodPrice.setText("Giá: " + item.getPrice() + "đ");
+        holder.foodPrice.setText("Giá: " + String.format("%sđ", price));
 
 
         Glide.with(holder.itemView.getContext())

@@ -4,17 +4,28 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="16dp">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingBottom="8dp">
 
+        <!-- Nút quay lại -->
+        <ImageButton
+            android:id="@+id/backButton"
+            android:layout_width="54dp"
+            android:layout_height="54dp"
+            android:src="@drawable/ic_back"
+            android:layout_marginEnd="8dp" />
     <!-- Tiêu đề hồ sơ cá nhân -->
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Thông tin cá nhân"
         android:textSize="20sp"
-        android:textStyle="bold"
-        android:layout_gravity="center_horizontal"
-        android:paddingBottom="16dp" />
-
+        android:fontFamily="sans-serif-medium"
+        android:layout_gravity="center_vertical"/>
+    </LinearLayout>
     <!-- Ảnh hồ sơ -->
     <ImageView
         android:id="@+id/app_icon"

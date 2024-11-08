@@ -16,7 +16,6 @@ public class Cart {
         private int quantity;
 
         public CartItems() {
-
         }
 
         public int getQuantity() {
